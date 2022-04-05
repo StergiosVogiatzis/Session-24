@@ -12,7 +12,7 @@ using RedMotors.Database;
 namespace RedMotors.Database.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20220405103624_initial")]
+    [Migration("20220405134113_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,10 +89,6 @@ namespace RedMotors.Database.Migrations
 
                     b.Property<Guid>("ManagerId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ManagerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

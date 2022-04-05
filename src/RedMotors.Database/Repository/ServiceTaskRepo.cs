@@ -3,28 +3,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RedMotors.Database.Repository
 {
-    internal class ServiceTaskRepo : IEntityRepo<ServiceTask>
+    public class ServiceTaskRepo : IEntityRepo<ServiceTask>
     {
         private readonly GarageContext _context;
 
-        public ServiceTaskRepo(GarageContext context)
+        public ServiceTaskRepo(GarageContext dbContext)
         {
-            _context = context;
+            _context = dbContext;
         }
 
         public async Task AddAsync(ServiceTask entity)
         {
-            _context.ServiceTasks.Add(entity);
+            AddLogic(entity,_context);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var serviceTask = await _context.ServiceTasks.SingleOrDefaultAsync(x => x.Id == id);
-
-            if (serviceTask is null)
-                return;
-            _context.ServiceTasks.Remove(serviceTask);
+            DeleteLogic(id,_context);
             await _context.SaveChangesAsync();
         }
 
@@ -33,20 +29,44 @@ namespace RedMotors.Database.Repository
             return await _context.ServiceTasks.ToListAsync();
         }
 
-        public Task<ServiceTask?> GetByIdAsync(Guid id)
+        public async Task<ServiceTask?> GetByIdAsync(Guid id)
         {
-            return _context.ServiceTasks.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.ServiceTasks.SingleOrDefaultAsync(serviceTask => serviceTask.Id == id);
         }
 
         public async Task UpdateAsync(Guid id, ServiceTask entity)
         {
-            var serviceTask = await GetByIdAsync(id);
-
-            if (serviceTask is null)
-                throw new KeyNotFoundException($"Service Task {id} was removed in the middle of being updated");
+            UpdateLogic(id, entity,_context);
             await _context.SaveChangesAsync();
         }
 
+
+        private void AddLogic(ServiceTask entity, GarageContext context)
+        {
+            if (entity.Id != Guid.Empty)
+                throw new ArgumentException("Given entity should not have Id set", nameof(entity));
+
+            context.ServiceTasks.Add(entity);
+        }
+
+        private void DeleteLogic (Guid id,GarageContext context)
+        {
+            var dbServiceTask = context.ServiceTasks.SingleOrDefault(serviceTask => serviceTask.Id == id);
+            if (dbServiceTask is null)
+                throw new KeyNotFoundException($"Given id '{id}' was not found in database");
+
+            context.ServiceTasks.Remove(dbServiceTask);
+        }
+
+        private void UpdateLogic(Guid id, ServiceTask entity,GarageContext context)
+        {
+            var dbServiceTask = context.ServiceTasks.SingleOrDefault(serviceTask =>serviceTask.Id == id);
+            if (dbServiceTask is null)
+                throw new KeyNotFoundException($"Given id '{id}' was not found in database");
+            dbServiceTask.Code = entity.Code;
+            dbServiceTask.Description = entity.Description;
+            dbServiceTask.Hours = entity.Hours;
+        }
     }
 }
  
