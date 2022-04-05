@@ -9,6 +9,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LavenderMotors.Entities\RedMotors.Entities.csproj" />
+    <ProjectReference Include="..\RedMotors.Entities\RedMotors.Entities.csproj" />
   </ItemGroup>
 </Project>
