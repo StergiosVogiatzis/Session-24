@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using RedMotors.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<GarageContext>();
+builder.Services.AddRedMotorsDatabase();
 
 var app = builder.Build();
 

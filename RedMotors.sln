@@ -8,11 +8,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Entities", "src\R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Database", "src\RedMotors.Database\RedMotors.Database.csproj", "{C650442A-8E90-4DFB-B9D4-88913B46B12E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Server", "RedMotors.Blazor\Server\RedMotors.Blazor.Server.csproj", "{D4904F16-8956-4627-B782-294C47D73109}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Blazor.Server", "RedMotors.Blazor\Server\RedMotors.Blazor.Server.csproj", "{D4904F16-8956-4627-B782-294C47D73109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Client", "RedMotors.Blazor\Client\RedMotors.Blazor.Client.csproj", "{03DB5268-0561-4058-AF9D-5E6971875FEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Blazor.Client", "RedMotors.Blazor\Client\RedMotors.Blazor.Client.csproj", "{03DB5268-0561-4058-AF9D-5E6971875FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Shared", "RedMotors.Blazor\Shared\RedMotors.Blazor.Shared.csproj", "{8EBF10F7-1BED-47B0-981E-E215C72417CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Blazor.Shared", "RedMotors.Blazor\Shared\RedMotors.Blazor.Shared.csproj", "{8EBF10F7-1BED-47B0-981E-E215C72417CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RedMotors.Blazor", "RedMotors.Blazor", "{518335A3-FCD5-4D1F-B982-6026D1FAB488}"
 EndProject
