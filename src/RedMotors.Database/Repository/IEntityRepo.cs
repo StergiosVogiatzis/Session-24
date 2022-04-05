@@ -1,10 +1,12 @@
 ﻿namespace RedMotors.Database.Repository;
 
-public interface IEntityRepo<T>
+public interface IEntityRepo<TEntity>
+    where TEntity : class
 {
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<T?> GetByIdAsync(Guid id);
-    Task AddAsync(T entity);
-    Task UpdateAsync(Guid id, T entity);
+
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<TEntity?> GetByIdAsync(Guid id);
+    Task AddAsync(TEntity entity);
+    Task UpdateAsync(Guid id, TEntity entity);
     Task DeleteAsync(Guid id);
 }
