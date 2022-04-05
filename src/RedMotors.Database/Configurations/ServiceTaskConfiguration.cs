@@ -1,14 +1,14 @@
-using LavenderMotors.Entities;
+using RedMotors.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LavenderMotors.Database.Configurations;
+namespace RedMotors.Database.Configurations;
 
 internal sealed class ServiceTaskConfiguration : IEntityTypeConfiguration<ServiceTask>
 {
     public void Configure(EntityTypeBuilder<ServiceTask> builder)
     {
-        builder.ToTable("ServiceTasks", nameof(LavenderMotors));
+        builder.ToTable("ServiceTasks", nameof(RedMotors));
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.Property(c => c.Code).HasMaxLength(50).IsRequired();

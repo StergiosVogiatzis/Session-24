@@ -1,4 +1,4 @@
-﻿namespace LavenderMotors.Entities;
+﻿namespace RedMotors.Entities;
 
 public class Transaction
 {

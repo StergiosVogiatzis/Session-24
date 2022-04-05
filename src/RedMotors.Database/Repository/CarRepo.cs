@@ -1,7 +1,7 @@
-﻿using LavenderMotors.Entities;
+﻿using RedMotors.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LavenderMotors.Database.Repository;
+namespace RedMotors.Database.Repository;
 
 internal class CarRepo : IEntityRepo<Car>
 {

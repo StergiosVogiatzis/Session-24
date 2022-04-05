@@ -1,4 +1,4 @@
-﻿namespace LavenderMotors.Database.Repository;
+﻿namespace RedMotors.Database.Repository;
 
 public interface IEntityRepo<T>
 {

@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace LavenderMotors.Entities;
+namespace RedMotors.Entities;
 
 internal static class Utilities
 {

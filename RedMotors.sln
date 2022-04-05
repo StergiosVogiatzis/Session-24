@@ -4,9 +4,9 @@ VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EF1B4147-A573-4E65-8C43-DD61C08DED5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Entities", "src\LavenderMotors.Entities\RedMotors.Entities.csproj", "{165385FE-E2FC-41A1-B18D-E0485172B2C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Entities", "src\RedMotors.Entities\RedMotors.Entities.csproj", "{165385FE-E2FC-41A1-B18D-E0485172B2C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Database", "src\LavenderMotors.Database\RedMotors.Database.csproj", "{C650442A-8E90-4DFB-B9D4-88913B46B12E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Database", "src\RedMotors.Database\RedMotors.Database.csproj", "{C650442A-8E90-4DFB-B9D4-88913B46B12E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

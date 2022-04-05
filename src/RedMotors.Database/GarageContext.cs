@@ -1,8 +1,8 @@
-﻿using LavenderMotors.Database.Configurations;
-using LavenderMotors.Entities;
+﻿using RedMotors.Database.Configurations;
+using RedMotors.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LavenderMotors.Database;
+namespace RedMotors.Database;
 
 public class GarageContext : DbContext
 {
@@ -24,7 +24,7 @@ public class GarageContext : DbContext
 
     public GarageContext()
     {
-        _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Database=LavenderMotors;";
+        _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Database=RedMotors;";
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

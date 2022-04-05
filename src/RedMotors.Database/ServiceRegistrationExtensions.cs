@@ -1,12 +1,12 @@
-﻿using LavenderMotors.Database;
-using LavenderMotors.Database.Repository;
-using LavenderMotors.Entities;
+﻿using RedMotors.Database;
+using RedMotors.Database.Repository;
+using RedMotors.Entities;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceRegistrationExtensions
 {
-    public static IServiceCollection AddLavenderMotorsDatabase(this IServiceCollection serviceDescriptors)
+    public static IServiceCollection AddRedMotorsDatabase(this IServiceCollection serviceDescriptors)
     {
         return serviceDescriptors
             .AddDbContext<GarageContext>()

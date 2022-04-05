@@ -1,14 +1,14 @@
-using LavenderMotors.Entities;
+using RedMotors.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LavenderMotors.Database.Configurations;
+namespace RedMotors.Database.Configurations;
 
 internal sealed class EngineerConfiguration : IEntityTypeConfiguration<Engineer>
 {
     public void Configure(EntityTypeBuilder<Engineer> builder)
     {
-        builder.ToTable("Engineer", nameof(LavenderMotors));
+        builder.ToTable("Engineer", nameof(RedMotors));
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.Property(c => c.Name).HasMaxLength(50).IsRequired();

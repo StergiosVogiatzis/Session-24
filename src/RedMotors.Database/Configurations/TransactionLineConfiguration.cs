@@ -1,14 +1,14 @@
-using LavenderMotors.Entities;
+using RedMotors.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LavenderMotors.Database.Configurations;
+namespace RedMotors.Database.Configurations;
 
 internal sealed class TransactionLineConfiguration : IEntityTypeConfiguration<TransactionLine>
 {
     public void Configure(EntityTypeBuilder<TransactionLine> builder)
     {
-        builder.ToTable("TransactionLines", nameof(LavenderMotors));
+        builder.ToTable("TransactionLines", nameof(RedMotors));
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.HasOne(c => c.Transaction).WithMany(c => c.Lines).HasForeignKey(c => c.TransactionId).IsRequired();
