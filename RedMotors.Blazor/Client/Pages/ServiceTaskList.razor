@@ -1,13 +1,10 @@
 ﻿@page "/ServiceTaskList" 
 @inject HttpClient httpClient
-@inject IJSRuntime jsRuntime
-@using RedMotors.Blazor.Shared
-@using System.Net.Http.Json
 <h3>ServiceTaskList</h3>
 
 <input @bind=NewCodeText  placeholder="New Task Code.." />
 <input @bind=NewDescriptionText placeholder="New Task Description"/>
-<input @bind=NewHoursInput />
+<input @bind=NewHoursInput placeholder=0 maxlength=2/>
 <button class="btn btn-primary" @onclick="AddItem" >Add</button>
 
 @if (isLoading)
@@ -28,75 +25,12 @@ else{
             @foreach(var item in serviceTaskList)
             {
                 <tr>
-                    <td><input @*@bind=ChangedCodeText*@ value="@item.Code"></td>
-                    <td><input @*@bind=ChangedDescriptionText*@ value="@item.Description"/></td>
-                    <td><input @*@bind=ChangedHoursInput*@ value="@item.Hours"/></td>
-                    <td><button class="btn btn-danger" @onclick="() => SaveItem(item)">Save</button></td>
+                    <td><input  value="@item.Code" @onchange="(e)=> CodeChanged(e, item)" /></td>
+                    <td><input  value="@item.Description" @onchange="(e)=> DescriptionChanged(e, item)"/></td>
+                    <td><input  value="@item.Hours" @onchange="(e)=> HoursChanged(e, item)"></td>
                     <td><button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button></td>
                 </tr>
             }
         </tbody>
     </table>
-}
-
-@code {
-    private string NewCodeText { get; set; }
-    private string NewDescriptionText { get; set; }
-    public decimal? NewHoursInput { get; set; }
-    List<ServiceTaskListViewModel> serviceTaskList = new();
-    bool isLoading = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        LoadItemsFromServer();
-        isLoading = false;
-    }
-    private async Task LoadItemsFromServer()
-    {
-        serviceTaskList = await httpClient.GetFromJsonAsync<List<ServiceTaskListViewModel>>("serviceTask");
-    }
-
-    async Task AddItem()
-    {
-        if (string.IsNullOrWhiteSpace(NewCodeText)) return;
-        if (string.IsNullOrWhiteSpace(NewDescriptionText)) return;
-        if (NewHoursInput is null || NewHoursInput == 0 ) return;
-        var newServiceTask = new ServiceTaskListViewModel
-            {
-                Code = NewCodeText,
-                Description= NewDescriptionText,
-                Hours=NewHoursInput,
-
-            };
-        NewCodeText = null;
-        NewDescriptionText = null;
-        NewHoursInput = 0;
-        await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
-        await LoadItemsFromServer();
-    }
-
-    async Task DeleteItem(ServiceTaskListViewModel itemToDelete)
-    {
-        var confirm = await jsRuntime.InvokeAsync<bool>("confirmDelete", null);
-        if (confirm)
-        {
-            var response = await httpClient.DeleteAsync($"serviceTask/{itemToDelete.Id}");
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-    }
-    async Task SaveItem(ServiceTaskListViewModel item)
-    {
-        //if (string.IsNullOrWhiteSpace(ChangedCodeText)) return;
-        //if (string.IsNullOrWhiteSpace(ChangedDescriptionText)) return;
-        //if (ChangedHoursInput is null || ChangedHoursInput == 0 ) return;
-        //item.Code = ChangedCodeText;
-        //item.Description = ChangedDescriptionText;
-        //item.Hours = ChangedHoursInput;
-
-        var response = await httpClient.PutAsJsonAsync("serviceTask", item);
-        response.EnsureSuccessStatusCode();
-        //await LoadItemsFromServer();
-    }
-
 }
