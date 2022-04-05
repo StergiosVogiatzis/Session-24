@@ -7,10 +7,7 @@ public class Car
     public string Model { get; set; }
     public string CarRegistrationNumber { get; set; }
 
-    public Car(string brand, string model, string carRegistrationNumber)
+    public Car()
     {
-        Brand = brand;
-        Model = model;
-        CarRegistrationNumber = carRegistrationNumber;
     }
 }

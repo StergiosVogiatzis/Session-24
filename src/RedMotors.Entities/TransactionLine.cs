@@ -39,9 +39,7 @@ public class TransactionLine
     public decimal Price { get; set; }
 
 
-    public TransactionLine(decimal hours, decimal pricePerHour)
+    public TransactionLine()
     {
-        Hours = hours;
-        PricePerHour = pricePerHour;
     }
 }

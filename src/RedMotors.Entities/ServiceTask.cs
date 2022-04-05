@@ -7,10 +7,7 @@ public class ServiceTask
     public string Description { get; set; }
     public decimal Hours { get; set; }
 
-    public ServiceTask(string code, string description, decimal hours)
+    public ServiceTask()
     {
-        Code = code;
-        Description = description;
-        Hours = hours;
     }
 }

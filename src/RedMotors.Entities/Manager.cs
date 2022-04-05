@@ -1,16 +1,10 @@
 ﻿namespace RedMotors.Entities;
 
-public class Manager
+public class Manager : Person
 {
-    public Guid Id { get; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
     public decimal SalaryPerMonth { get; set; }
 
-    public Manager(string name, string surname, decimal salaryPerMonth)
+    public Manager()
     {
-        Name = name;
-        Surname = surname;
-        SalaryPerMonth = salaryPerMonth;
     }
 }
