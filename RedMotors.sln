@@ -8,6 +8,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Entities", "src\R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedMotors.Database", "src\RedMotors.Database\RedMotors.Database.csproj", "{C650442A-8E90-4DFB-B9D4-88913B46B12E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Server", "RedMotors.Blazor\Server\RedMotors.Blazor.Server.csproj", "{D4904F16-8956-4627-B782-294C47D73109}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Client", "RedMotors.Blazor\Client\RedMotors.Blazor.Client.csproj", "{03DB5268-0561-4058-AF9D-5E6971875FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedMotors.Blazor.Shared", "RedMotors.Blazor\Shared\RedMotors.Blazor.Shared.csproj", "{8EBF10F7-1BED-47B0-981E-E215C72417CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RedMotors.Blazor", "RedMotors.Blazor", "{518335A3-FCD5-4D1F-B982-6026D1FAB488}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +30,18 @@ Global
 		{C650442A-8E90-4DFB-B9D4-88913B46B12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C650442A-8E90-4DFB-B9D4-88913B46B12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C650442A-8E90-4DFB-B9D4-88913B46B12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4904F16-8956-4627-B782-294C47D73109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4904F16-8956-4627-B782-294C47D73109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4904F16-8956-4627-B782-294C47D73109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4904F16-8956-4627-B782-294C47D73109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03DB5268-0561-4058-AF9D-5E6971875FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03DB5268-0561-4058-AF9D-5E6971875FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03DB5268-0561-4058-AF9D-5E6971875FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03DB5268-0561-4058-AF9D-5E6971875FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EBF10F7-1BED-47B0-981E-E215C72417CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EBF10F7-1BED-47B0-981E-E215C72417CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EBF10F7-1BED-47B0-981E-E215C72417CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EBF10F7-1BED-47B0-981E-E215C72417CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -29,6 +49,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{165385FE-E2FC-41A1-B18D-E0485172B2C1} = {EF1B4147-A573-4E65-8C43-DD61C08DED5D}
 		{C650442A-8E90-4DFB-B9D4-88913B46B12E} = {EF1B4147-A573-4E65-8C43-DD61C08DED5D}
+		{D4904F16-8956-4627-B782-294C47D73109} = {518335A3-FCD5-4D1F-B982-6026D1FAB488}
+		{03DB5268-0561-4058-AF9D-5E6971875FEA} = {518335A3-FCD5-4D1F-B982-6026D1FAB488}
+		{8EBF10F7-1BED-47B0-981E-E215C72417CD} = {518335A3-FCD5-4D1F-B982-6026D1FAB488}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4B45714F-E3AA-4644-88D7-BF3B7FD2307D}
