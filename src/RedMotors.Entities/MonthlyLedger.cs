@@ -8,7 +8,16 @@ public class MonthlyLedger
     public decimal Expenses { get; }
     public decimal Total => Income - Expenses;
 
+    public MonthlyLedger(uint year, uint month, decimal income, decimal expenses)
+    {
+        Year = year;
+        Month = month;
+        Income = income;
+        Expenses = expenses;
+    }
+
     public MonthlyLedger()
     {
+
     }
 }
