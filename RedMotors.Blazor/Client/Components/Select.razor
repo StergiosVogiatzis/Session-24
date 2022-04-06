@@ -1,0 +1,23 @@
+﻿<select class="ms-2 form-select" aria-label="Default select example" value="@Value" @onchange="OnChange">
+    @if (ShowPlaceholder)
+    {
+        <option value="-1">Select Enigineer</option>    
+    }
+    @foreach (var engineer in Engineers)
+    {
+        <option value="@commenter.Id"> @commenter.Name </option>
+    }
+</select>
+
+@code{
+    [Parameter] public List<TransactionLineEditViewModel> TransactionLines { get; set; }
+    [Parameter] public bool ShowPlaceholder { get; set; }
+    [Parameter] public Guid Value { get; set; }
+    [Parameter] public EventCallback<Guid> ValueChanged { get; set; }
+
+    private async Task OnChange(ChangeEventArgs e)
+    {
+        Value = Guid.Parse(e.Value.ToString());
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
