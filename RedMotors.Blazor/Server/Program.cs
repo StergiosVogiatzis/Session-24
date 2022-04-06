@@ -3,7 +3,6 @@ using RedMotors.Database;
 using RedMotors.Database.Repository;
 using RedMotors.Entities;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<GarageContext>();
+
 //builder.Services.AddRedMotorsDatabase();
 builder.Services.AddTransient<IEntityRepo<Customer>, CustomerRepo>();
 builder.Services.AddTransient<IEntityRepo<Car>, CarRepo>();
@@ -18,6 +18,7 @@ builder.Services.AddTransient<IEntityRepo<Manager>, ManagerRepo>();
 builder.Services.AddTransient<IEntityRepo<ServiceTask>, ServiceTaskRepo>();
 builder.Services.AddTransient<IEntityRepo<Transaction>, TransactionRepo>();
 builder.Services.AddTransient<IEntityRepo<TransactionLine>, TransactionLinesRepo>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
