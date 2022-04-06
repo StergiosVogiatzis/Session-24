@@ -14,7 +14,7 @@ builder.Services.AddScoped<IEntityRepo<Manager>, ManagerRepo>();
     
 
 
-builder.Services.AddDbContext<GarageContext>();
+//builder.Services.AddDbContext<GarageContext>();
 builder.Services.AddRedMotorsDatabase();
 
 
