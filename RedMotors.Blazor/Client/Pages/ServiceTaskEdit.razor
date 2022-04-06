@@ -1,6 +1,6 @@
-﻿@page "/ServiceTaskList/edit/{Id:guid}"
+﻿@page "/ServiceTaskList/edit/{Id:guid?}"
 @inject HttpClient httpClient
-@inject NavigationManager navigatorManager
+@inject NavigationManager navigationManager
 
 <h3> Service Task Edit </h3>
 
@@ -23,84 +23,67 @@ else
             <input class="form-control" @bind="@ServiceTaskItem.Hours" />
         </div>
     </div>
-@*    <div class="card mt-2">
-        <div class="card-header">
-            <div>
-                Comments
-            </div>
 
-            <div class="input-group">
-                <input class="form-control me-2" @bind="newCommentText" placeholder="New comment ..." />
-                <CommenterSelect Commenters="TodoItem.Commenters"
-                                 ShowPlaceholder=true
-                                 @bind-Value="newCommentCommenterId" />
-                <button class="btn btn-primary" @onclick="AddComment">+</button>
-            </div>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Text</th>
-                        <th>Commenter</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var comment in TodoItem.Comments)
-                    {
-                        <tr>
-                            <td>
-                                <input class="form-control" @bind="comment.Text" />
-                            </td>
-                            <td>
-                                <CommenterSelect Commenters="TodoItem.Commenters" @bind-Value="comment.CommenterId" />
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" @onclick="()=> DeleteComment(comment)">X</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-*@
-@*    <div class="row mt-2">
+    <div class="row mt-2">
         <div class="col">
             <button class="btn btn-success" @onclick="OnSave">Save</button>
             <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
         </div>
-    </div>*@
+    </div>
 }
 
-
 @code{
-    [Parameter] public Guid Id{ get; set; }
+    [Parameter] public Guid? Id{ get; set; }
     ServiceTaskEditViewModel ServiceTaskItem { get; set; }
-    private string NewCodeText { get; set; }
-    private string NewDescriptionText { get; set; }
-    public decimal? NewHoursInput { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == Guid.Empty ? 0:Id)}");
+        if(ServiceTaskItem == null)
+        {
+            ServiceTaskItem = new ServiceTaskEditViewModel();
+        }
+        else
+        {
+            ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == null ? 0:Id)}");
+        }
     }
 
     async Task AddItem()
+    {
+        if (string.IsNullOrWhiteSpace(ServiceTaskItem.Code)
+        && string.IsNullOrWhiteSpace(ServiceTaskItem.Description)
+        && ServiceTaskItem.Hours is null || ServiceTaskItem.Hours == 0) return;
+        if(ServiceTaskItem.Hours > 8m ) 
+            return;
+        var newServiceTask = new ServiceTaskListViewModel
         {
-            if (string.IsNullOrWhiteSpace(NewCodeText) && string.IsNullOrWhiteSpace(NewDescriptionText) && NewHoursInput is null || NewHoursInput == 0) return;
-            var newServiceTask = new ServiceTaskListViewModel
-            {
-                Code = NewCodeText,
-                Description = NewDescriptionText,
-                Hours = NewHoursInput,
-
-            };
-            NewCodeText = null;
-            NewDescriptionText = null;
-            NewHoursInput = 0;
-            await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
-            //await LoadItemsFromServer();
+            Code = ServiceTaskItem.Code,
+            Description = ServiceTaskItem.Description,
+            Hours = ServiceTaskItem.Hours,
+        };
+        ServiceTaskItem.Code = null;
+        ServiceTaskItem.Description = null;
+        ServiceTaskItem.Hours = 0;
+        await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
+        //await LoadItemsFromServer();
+    }
+ 
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("serviceTask", ServiceTaskItem);
         }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("serviceTask", ServiceTaskItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("serviceTasklist");
+    }
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("serviceTasklist");
+    }
 }

@@ -3,9 +3,9 @@
 @inject NavigationManager navigationManager
 <h3>ServiceTaskList</h3>
 
-<input @bind=NewCodeText  placeholder="New Task Code.." />
+@*<input @bind=NewCodeText  placeholder="New Task Code.." />
 <input @bind=NewDescriptionText placeholder="New Task Description"/>
-<input @bind=NewHoursInput placeholder=0 maxlength=2/>
+<input @bind=NewHoursInput placeholder=0 maxlength=2/>*@
 <button class="btn btn-primary" @onclick="AddItemPage" >Add</button>
 
 @if (isLoading)
@@ -26,10 +26,13 @@ else{
             @foreach(var item in serviceTaskList)
             {
                 <tr>
-                    <td><input  value="@item.Code" @onchange="(e)=> CodeChanged(e, item)" /></td>
-                    <td><input  value="@item.Description" @onchange="(e)=> DescriptionChanged(e, item)"/></td>
-                    <td><input  value="@item.Hours" @onchange="(e)=> HoursChanged(e, item)"></td>
-                    <td><button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button></td>
+                    <td><input  value="@item.Code" /></td>
+                    <td><input  value="@item.Description"/></td>
+                    <td><input  value="@item.Hours" max=8></td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditServiceTaskItem(item)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(item)">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>

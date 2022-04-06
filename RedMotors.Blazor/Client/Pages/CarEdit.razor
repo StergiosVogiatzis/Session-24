@@ -49,7 +49,6 @@ else
         {
             CarItem = await httpClient.GetFromJsonAsync<CarEditListViewModel>($"car/{(Id == null ? 0 : Id)}");
         }
-        CarItem = await httpClient.GetFromJsonAsync<CarEditListViewModel>($"car/{(Id == null ? 0 : Id)}");
     }
 
     protected async Task OnSave()
