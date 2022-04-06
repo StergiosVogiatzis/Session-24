@@ -23,7 +23,6 @@ namespace RedMotors.Blazor.Client.Pages
         async Task AddItem()
         {
             navigationManager.NavigateTo("/carlist/edit");
-
         }
         async Task EditItem(CarListViewModel itemToEdit)
         {
