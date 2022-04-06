@@ -1,0 +1,106 @@
+﻿@page "/ServiceTaskList/edit/{Id:guid}"
+@inject HttpClient httpClient
+@inject NavigationManager navigatorManager
+
+<h3> Service Task Edit </h3>
+
+@if (ServiceTaskItem ==null){
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Code</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Code" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Description</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Description" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Hours</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Hours" />
+        </div>
+    </div>
+@*    <div class="card mt-2">
+        <div class="card-header">
+            <div>
+                Comments
+            </div>
+
+            <div class="input-group">
+                <input class="form-control me-2" @bind="newCommentText" placeholder="New comment ..." />
+                <CommenterSelect Commenters="TodoItem.Commenters"
+                                 ShowPlaceholder=true
+                                 @bind-Value="newCommentCommenterId" />
+                <button class="btn btn-primary" @onclick="AddComment">+</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Text</th>
+                        <th>Commenter</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var comment in TodoItem.Comments)
+                    {
+                        <tr>
+                            <td>
+                                <input class="form-control" @bind="comment.Text" />
+                            </td>
+                            <td>
+                                <CommenterSelect Commenters="TodoItem.Commenters" @bind-Value="comment.CommenterId" />
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" @onclick="()=> DeleteComment(comment)">X</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+*@
+@*    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>*@
+}
+
+
+@code{
+    [Parameter] public Guid Id{ get; set; }
+    ServiceTaskEditViewModel ServiceTaskItem { get; set; }
+    private string NewCodeText { get; set; }
+    private string NewDescriptionText { get; set; }
+    public decimal? NewHoursInput { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == Guid.Empty ? 0:Id)}");
+    }
+
+    async Task AddItem()
+        {
+            if (string.IsNullOrWhiteSpace(NewCodeText) && string.IsNullOrWhiteSpace(NewDescriptionText) && NewHoursInput is null || NewHoursInput == 0) return;
+            var newServiceTask = new ServiceTaskListViewModel
+            {
+                Code = NewCodeText,
+                Description = NewDescriptionText,
+                Hours = NewHoursInput,
+
+            };
+            NewCodeText = null;
+            NewDescriptionText = null;
+            NewHoursInput = 0;
+            await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
+            //await LoadItemsFromServer();
+        }
+}

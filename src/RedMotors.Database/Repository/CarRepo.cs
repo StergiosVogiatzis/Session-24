@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RedMotors.Database.Repository;
 
-internal class CarRepo : IEntityRepo<Car>
+public class CarRepo : IEntityRepo<Car>
 {
     private readonly GarageContext _context;
 

@@ -1,11 +1,12 @@
 ﻿@page "/ServiceTaskList" 
 @inject HttpClient httpClient
+@inject NavigationManager navigationManager
 <h3>ServiceTaskList</h3>
 
 <input @bind=NewCodeText  placeholder="New Task Code.." />
 <input @bind=NewDescriptionText placeholder="New Task Description"/>
 <input @bind=NewHoursInput placeholder=0 maxlength=2/>
-<button class="btn btn-primary" @onclick="AddItem" >Add</button>
+<button class="btn btn-primary" @onclick="AddItemPage" >Add</button>
 
 @if (isLoading)
 {

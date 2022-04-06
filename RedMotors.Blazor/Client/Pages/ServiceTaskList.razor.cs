@@ -24,6 +24,11 @@ namespace RedMotors.Blazor.Client.Pages
             serviceTaskList = await httpClient.GetFromJsonAsync<List<ServiceTaskListViewModel>>("serviceTask");
         }
 
+        async Task AddItemPage()
+        {
+            navigationManager.NavigateTo("ServiceTaskList/edit");
+        }
+
         async Task AddItem()
         {
             if (string.IsNullOrWhiteSpace(NewCodeText) && string.IsNullOrWhiteSpace(NewDescriptionText) && NewHoursInput is null || NewHoursInput == 0) return;
