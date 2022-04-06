@@ -1,0 +1,79 @@
+﻿@page "/customerlist/edit/{Id:guid?}"
+@using RedMotors.Blazor.Shared
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Customer</h3>
+
+@if (CustomerItem == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input class="form-control" @bind="@CustomerItem.Name" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Surname</label>
+            <input class="form-control" @bind="@CustomerItem.Surname" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            <input class="form-control" @bind="@CustomerItem.Phone" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">TIN</label>
+            <input class="form-control" @bind="@CustomerItem.TIN" />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    CustomerEditListViewModel CustomerItem { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(CustomerItem == null)
+        {
+            CustomerItem = new CustomerEditListViewModel();
+        }
+        else
+        {
+            CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? 0 : Id)}");
+        }
+        CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? 0 : Id)}");
+    }
+
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("customer", CustomerItem);
+        }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("customer", CustomerItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("customerlist");
+    }
+
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("customerlist");
+    }
+}
