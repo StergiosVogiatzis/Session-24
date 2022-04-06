@@ -29,8 +29,24 @@ namespace RedMotors.Blazor.Server.Controllers
             });
 
         }
+        [HttpGet("{Id}")]
+        public async Task<ManagerEditViewModel> Get(Guid Id)
+        {
+            ManagerEditViewModel viewModel = new ManagerEditViewModel();
+            if (Id != Guid.Empty)
+            {
+                var existing = await _managerRepo.GetByIdAsync(Id);
+                viewModel.Id = existing.Id;
+                viewModel.Name = existing.Name;
+                viewModel.Surname = existing.Surname;
+                viewModel.SalaryPerMonth = existing.SalaryPerMonth;
+            }
+            return viewModel;
+
+        }
+
         [HttpPost]
-        public async Task PostManager(ManagerListViewModel manager)
+        public async Task PostManager(ManagerEditViewModel manager)
         {
             var newManager = new Manager();
 
@@ -39,6 +55,24 @@ namespace RedMotors.Blazor.Server.Controllers
             newManager.Surname = manager.Surname;
             newManager.SalaryPerMonth = manager.SalaryPerMonth;
             await _managerRepo.AddAsync(newManager);
+            
+        }
+        [HttpDelete("{Id}")]
+        public async Task Delete(Guid Id)
+        {
+            await _managerRepo.DeleteAsync(Id);
+        }
+        [HttpPut]
+        public async Task<ActionResult> Put(ManagerEditViewModel manager)
+        {
+            var updatedManager = await _managerRepo.GetByIdAsync(manager.Id);
+            if (updatedManager == null) return NotFound();
+            updatedManager.Id = manager.Id;
+            updatedManager.Surname = manager.Surname;
+            updatedManager.Name = manager.Name;
+            updatedManager.SalaryPerMonth = manager.SalaryPerMonth;
+            await _managerRepo.UpdateAsync(manager.Id, updatedManager);
+            return Ok();
         }
 
     }
