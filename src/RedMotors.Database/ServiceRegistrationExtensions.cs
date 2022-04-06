@@ -9,7 +9,7 @@ public static class ServiceRegistrationExtensions
     public static IServiceCollection AddRedMotorsDatabase(this IServiceCollection serviceDescriptors)
     {
         return serviceDescriptors
-            .AddDbContext<GarageContext>()
+            //.AddDbContext<GarageContext>()
             .AddTransient<IEntityRepo<Customer>, CustomerRepo>()
             .AddTransient<IEntityRepo<Car>, CarRepo>()
             .AddTransient<IEntityRepo<Manager>, ManagerRepo>()

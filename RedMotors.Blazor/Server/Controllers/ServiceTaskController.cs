@@ -30,6 +30,21 @@ namespace RedMotors.Blazor.Server.Controllers
             });
         }
 
+        [HttpGet("{id}")]
+        public async Task<ServiceTaskEditViewModel> Get(Guid id)
+        {
+            ServiceTaskEditViewModel model = new();
+            if (id != Guid.Empty)
+            {
+                var existing = await _serviceTaskRepo.GetByIdAsync(id);
+                model.Id = existing.Id;
+                model.Code = existing.Code;
+                model.Description = existing.Description;
+                model.Hours = existing.Hours;
+            }
+            return model;
+        }
+
         [HttpPost]
         public async Task Post(ServiceTaskListViewModel serviceTask)
         {
@@ -48,18 +63,18 @@ namespace RedMotors.Blazor.Server.Controllers
             await _serviceTaskRepo.DeleteAsync(id);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put(ServiceTaskListViewModel serviceTask)
-        {
-            var itemToUpdate = await _serviceTaskRepo.GetByIdAsync(serviceTask.Id);
-            if (itemToUpdate == null) return NotFound();
+        ////[HttpPut]
+        ////public async Task<ActionResult> Put(ServiceTaskListViewModel serviceTask)
+        ////{
+        ////    var itemToUpdate = await _serviceTaskRepo.GetByIdAsync(serviceTask.Id);
+        ////    if (itemToUpdate == null) return NotFound();
 
-            itemToUpdate.Code = serviceTask.Code;
-            itemToUpdate.Description = serviceTask.Description;
-            itemToUpdate.Hours = Convert.ToDecimal(serviceTask.Hours);
+        ////    itemToUpdate.Code = serviceTask.Code;
+        ////    itemToUpdate.Description = serviceTask.Description;
+        ////    itemToUpdate.Hours = Convert.ToDecimal(serviceTask.Hours);
 
-            await _serviceTaskRepo.UpdateAsync(serviceTask.Id, itemToUpdate);
-            return Ok();
-        }
+        ////    await _serviceTaskRepo.UpdateAsync(serviceTask.Id, itemToUpdate);
+        ////    return Ok();
+        ////}
     }
 }

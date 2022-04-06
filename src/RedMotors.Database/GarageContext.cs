@@ -14,6 +14,8 @@ public class GarageContext : DbContext
     public DbSet<Engineer> Engineers { get; set; } = null!;
     public DbSet<Manager> Managers { get; set; } = null!;
     public DbSet<Transaction> Transactions { get; set; } = null!;
+    public DbSet<TransactionLine> TransactionLines { get; set; } = null!;
+
 
     //TODO: needs arguments in the mothly leger model
     //public Task<List<MonthlyLedger>> GetMonthlyLedgerAsync() =>
