@@ -8,9 +8,6 @@ namespace RedMotors.Blazor.Client.Pages
 {
     public partial class ServiceTaskList
     {
-        private string NewCodeText { get; set; }
-        private string NewDescriptionText { get; set; }
-        public decimal? NewHoursInput { get; set; }
         List<ServiceTaskListViewModel> serviceTaskList = new();
         bool isLoading = true;
 
@@ -28,24 +25,10 @@ namespace RedMotors.Blazor.Client.Pages
         {
             navigationManager.NavigateTo("ServiceTaskList/edit");
         }
-
-        async Task AddItem()
+        async Task EditServiceTaskItem(ServiceTaskListViewModel itemToEdit)
         {
-            if (string.IsNullOrWhiteSpace(NewCodeText) && string.IsNullOrWhiteSpace(NewDescriptionText) && NewHoursInput is null || NewHoursInput == 0) return;
-            var newServiceTask = new ServiceTaskListViewModel
-            {
-                Code = NewCodeText,
-                Description = NewDescriptionText,
-                Hours = NewHoursInput,
-
-            };
-            NewCodeText = null;
-            NewDescriptionText = null;
-            NewHoursInput = 0;
-            await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
-            await LoadItemsFromServer();
+            navigationManager.NavigateTo($"/ServiceTaskList/edit/{itemToEdit.Id}");
         }
-
         async Task DeleteItem(ServiceTaskListViewModel itemToDelete)
         {
             var response = await httpClient.DeleteAsync($"serviceTask/{itemToDelete.Id}");
@@ -53,26 +36,5 @@ namespace RedMotors.Blazor.Client.Pages
             await LoadItemsFromServer();
         }
 
-        async Task CodeChanged(ChangeEventArgs e, ServiceTaskListViewModel item)
-        {
-            item.Code = e.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("serviceTask", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-        async Task DescriptionChanged(ChangeEventArgs e, ServiceTaskListViewModel item)
-        {
-            item.Description = e.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("serviceTask", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-        async Task HoursChanged(ChangeEventArgs e, ServiceTaskListViewModel item)
-        {
-            item.Hours = Convert.ToDecimal(e.Value);
-            var response = await httpClient.PutAsJsonAsync("serviceTask", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
     }
 }
