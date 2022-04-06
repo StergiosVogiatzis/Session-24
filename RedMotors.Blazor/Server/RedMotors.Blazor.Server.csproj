@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\RedMotors.Database\RedMotors.Database.csproj" />
     <ProjectReference Include="..\Client\RedMotors.Blazor.Client.csproj" />
     <ProjectReference Include="..\Shared\RedMotors.Blazor.Shared.csproj" />
   </ItemGroup>
