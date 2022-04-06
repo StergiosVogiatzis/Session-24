@@ -11,7 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<GarageContext>();
 builder.Services.AddScoped<IEntityRepo<Manager>, ManagerRepo>();
-    
+builder.Services.AddScoped<IEntityRepo<Engineer>, EngineerRepo>();
+
 
 
 //builder.Services.AddDbContext<GarageContext>();

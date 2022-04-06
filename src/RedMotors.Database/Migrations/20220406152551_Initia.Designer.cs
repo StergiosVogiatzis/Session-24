@@ -12,7 +12,7 @@ using RedMotors.Database;
 namespace RedMotors.Database.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20220406125357_Initia")]
+    [Migration("20220406152551_Initia")]
     partial class Initia
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
