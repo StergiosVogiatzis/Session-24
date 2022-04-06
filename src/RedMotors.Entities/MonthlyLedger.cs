@@ -15,4 +15,9 @@ public class MonthlyLedger
         Income = income;
         Expenses = expenses;
     }
+
+    public MonthlyLedger()
+    {
+
+    }
 }
