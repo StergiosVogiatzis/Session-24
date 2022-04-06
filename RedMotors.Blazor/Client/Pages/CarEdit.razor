@@ -1,0 +1,74 @@
+﻿@page "/carlist/edit/{Id:guid?}"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Car</h3>
+
+@if (CarItem == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Brand</label>
+            <input class="form-control" @bind="@CarItem.Brand" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Model</label>
+            <input class="form-control" @bind="@CarItem.Model" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Car Registrastion Number</label>
+            <input class="form-control" @bind="@CarItem.CarRegistrationNumber" />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    CarEditListViewModel CarItem { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(CarItem == null)
+        {
+            CarItem = new CarEditListViewModel();
+        }
+        else
+        {
+            CarItem = await httpClient.GetFromJsonAsync<CarEditListViewModel>($"car/{(Id == null ? 0 : Id)}");
+        }
+        CarItem = await httpClient.GetFromJsonAsync<CarEditListViewModel>($"car/{(Id == null ? 0 : Id)}");
+    }
+
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("car", CarItem);
+        }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("car", CarItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("carlist");
+    }
+
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("carlist");
+    }
+}

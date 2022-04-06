@@ -1,10 +1,8 @@
 ﻿@page "/carlist"
 @inject HttpClient httpClient
+@inject NavigationManager navigationManager
 
 <h3>Car List</h3>
-<input @bind=BrandText placeholder="Brand..." />
-<input @bind=ModelText placeholder="Model..." />
-<input @bind=RegNumText placeholder="Registration Number..." />
 <button class="btn btn-primary" @onclick="AddItem" >Add</button>
 
 @if (isLoading)
@@ -26,10 +24,13 @@
                 @foreach(var car in carList)
                 {
                     <tr>
-                        <td><input value="@car.Brand" @onchange="(e)=> BrandChanged(e, car)" /></td>
-                        <td><input value="@car.Model" @onchange="(e)=> ModelChanged(e, car)" /> </td>
-                        <td><input value="@car.CarRegistrationNumber" @onchange="(e)=> RegNumChanged(e, car)" /> </td>
-                        <td><button class="btn btn-danger" @onclick="() => DeleteItem(car)">Delete</button></td>
+                        <td>@car.Brand</td>
+                        <td>@car.Model</td>
+                        <td>@car.CarRegistrationNumber</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditItem(car)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteItem(car)">Delete</button>
+                    </td>
                     </tr>
                 }
             </tbody>
