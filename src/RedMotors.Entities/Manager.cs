@@ -8,8 +8,9 @@ public class Manager : Person
     public Manager(decimal salaryPerMonth)
     {
         SalaryPerMonth = salaryPerMonth;
-        //Person = new Person();
+        Engineers = new List<Engineer>();
     }
+    public ICollection<Engineer> Engineers { get; set; }
     public Manager()
     {
 

@@ -32,6 +32,21 @@ namespace RedMotors.Blazor.Server.Controllers
             });
 
         }
+        [HttpGet("{Id}")]
+        public async Task<EngineerEditViewModel> Get(Guid Id)
+        {
+            EngineerEditViewModel viewModel = new EngineerEditViewModel();
+            if (Id != Guid.Empty)
+            {
+                var existing = await _managerRepo.GetByIdAsync(Id);
+                viewModel.Id = existing.Id;
+                viewModel.Name = existing.Name;
+                viewModel.Surname = existing.Surname;
+                viewModel.SalaryPerMonth = existing.SalaryPerMonth;
+            }
+            return viewModel;
+
+        }
         [HttpPost]
         public async Task PostEngineer(EngineerListViewModel engineer)
         {
