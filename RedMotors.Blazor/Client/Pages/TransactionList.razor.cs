@@ -9,7 +9,7 @@ namespace RedMotors.Blazor.Client.Pages
         List<TransactionViewModel> transactionList = new();
         private List<CustomerEditListViewModel> customers { get; set; }
         private List<CarEditListViewModel> cars { get; set; }
-        private List<ManagerEditListViewModel> managers { get; set; }
+        private List<ManagerEditViewModel> managers { get; set; }
         public List<EngineerEditViewModel> engineers { get; set; } 
         public List<ServiceTaskEditViewModel> serviceTasks { get; set; } 
         bool isLoading = true;
@@ -25,7 +25,7 @@ namespace RedMotors.Blazor.Client.Pages
         {
             serviceTasks = await httpClient.GetFromJsonAsync<List<ServiceTaskEditViewModel>>("servicetask");
             engineers = await httpClient.GetFromJsonAsync<List<EngineerEditViewModel>>("engineer");
-            managers = await httpClient.GetFromJsonAsync<List<ManagerEditListViewModel>>("manager");
+            managers = await httpClient.GetFromJsonAsync<List<ManagerEditViewModel>>("manager");
             cars = await httpClient.GetFromJsonAsync<List<CarEditListViewModel>>("car");
             customers = await httpClient.GetFromJsonAsync<List<CustomerEditListViewModel>>("customer");
             transactionList = await httpClient.GetFromJsonAsync<List<TransactionViewModel>>("transaction");
