@@ -5,7 +5,7 @@ public class Engineer : Person
     public decimal SalaryPerMonth { get; set; }
     public Manager Manager { get; set; }
     public Guid ManagerId { get; set; }
-    //public ICollection<Manager> Managers { get; set; }
+    public ICollection<Manager> Managers { get; set; }
     public Engineer()
     {
         
