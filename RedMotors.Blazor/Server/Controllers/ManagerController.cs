@@ -48,14 +48,15 @@ namespace RedMotors.Blazor.Server.Controllers
         [HttpPost]
         public async Task PostManager(ManagerEditViewModel manager)
         {
-            var newManager = new Manager();
+            var newManager = new Manager {
 
-            newManager.Id = manager.Id;
-            newManager.Name = manager.Name;
-            newManager.Surname = manager.Surname;
-            newManager.SalaryPerMonth = manager.SalaryPerMonth;
+               Name = manager.Name,
+               Surname = manager.Surname,
+               SalaryPerMonth = manager.SalaryPerMonth,
+            };
             await _managerRepo.AddAsync(newManager);
-            
+
+
         }
         [HttpDelete("{Id}")]
         public async Task Delete(Guid Id)
@@ -67,7 +68,6 @@ namespace RedMotors.Blazor.Server.Controllers
         {
             var updatedManager = await _managerRepo.GetByIdAsync(manager.Id);
             if (updatedManager == null) return NotFound();
-            updatedManager.Id = manager.Id;
             updatedManager.Surname = manager.Surname;
             updatedManager.Name = manager.Name;
             updatedManager.SalaryPerMonth = manager.SalaryPerMonth;

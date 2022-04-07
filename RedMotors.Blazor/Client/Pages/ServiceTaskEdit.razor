@@ -34,18 +34,18 @@ else
 
 @code{
     [Parameter] public Guid? Id{ get; set; }
-    ServiceTaskEditViewModel ServiceTaskItem { get; set; }
+    ServiceTaskEditViewModel ServiceTaskItem { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        if(ServiceTaskItem == null)
-        {
-            ServiceTaskItem = new ServiceTaskEditViewModel();
-        }
-        else
-        {
-            ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == null ? 0:Id)}");
-        }
+        //if(ServiceTaskItem == null)
+        //{
+        //    ServiceTaskItem = new ServiceTaskEditViewModel();
+        //}
+        //else
+        //{
+            ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == null ? Guid.Empty :Id)}");
+        //}
     }
 
     //async Task AddItem()

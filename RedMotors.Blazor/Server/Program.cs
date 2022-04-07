@@ -13,6 +13,7 @@ builder.Services.AddDbContext<GarageContext>();
 builder.Services.AddTransient<IEntityRepo<Customer>, CustomerRepo>();
 builder.Services.AddTransient<IEntityRepo<Car>, CarRepo>();
 builder.Services.AddTransient<IEntityRepo<Manager>, ManagerRepo>();
+builder.Services.AddTransient<IEntityRepo<Engineer>, EngineerRepo>();
 builder.Services.AddTransient<IEntityRepo<ServiceTask>, ServiceTaskRepo>();
 builder.Services.AddTransient<IEntityRepo<Transaction>, TransactionRepo>();
 builder.Services.AddTransient<IEntityRepo<TransactionLine>, TransactionLinesRepo>();

@@ -40,20 +40,20 @@ else
 
 @code {
     [Parameter] public Guid? Id { get; set; }
-    CustomerEditListViewModel CustomerItem { get; set; }
+    CustomerEditListViewModel CustomerItem { get; set; } = new();
 
 
 
     protected override async Task OnInitializedAsync()
     {
-        if(CustomerItem == null)
-        {
-            CustomerItem = new();
-        }
-        else
-        {
-            CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? 0 : Id)}");
-        }
+    //    if(CustomerItem == null)
+    //    {
+    //        CustomerItem = new();
+    //    }
+    //    else
+    //    {
+            CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? Guid.Empty : Id)}");
+        //}
         
     }
 

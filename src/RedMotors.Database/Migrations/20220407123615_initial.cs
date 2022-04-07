@@ -44,21 +44,6 @@ namespace RedMotors.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Manager",
-                schema: "RedMotors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SalaryPerMonth = table.Column<decimal>(type: "decimal(18,2)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Manager", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiceTasks",
                 schema: "RedMotors",
                 columns: table => new
@@ -87,11 +72,27 @@ namespace RedMotors.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Engineer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Manager",
+                schema: "RedMotors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SalaryPerMonth = table.Column<decimal>(type: "decimal(18,2)", maxLength: 50, nullable: false),
+                    EngineerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Manager", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Engineer_Manager_ManagerId",
-                        column: x => x.ManagerId,
+                        name: "FK_Manager_Engineer_EngineerId",
+                        column: x => x.EngineerId,
                         principalSchema: "RedMotors",
-                        principalTable: "Manager",
+                        principalTable: "Engineer",
                         principalColumn: "Id");
                 });
 
@@ -126,33 +127,6 @@ namespace RedMotors.Database.Migrations
                     table.ForeignKey(
                         name: "FK_Transactions_Manager_ManagerId",
                         column: x => x.ManagerId,
-                        principalSchema: "RedMotors",
-                        principalTable: "Manager",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EngineerManager",
-                schema: "RedMotors",
-                columns: table => new
-                {
-                    EngineersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ManagersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EngineerManager", x => new { x.EngineersId, x.ManagersId });
-                    table.ForeignKey(
-                        name: "FK_EngineerManager_Engineer_EngineersId",
-                        column: x => x.EngineersId,
-                        principalSchema: "RedMotors",
-                        principalTable: "Engineer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EngineerManager_Manager_ManagersId",
-                        column: x => x.ManagersId,
                         principalSchema: "RedMotors",
                         principalTable: "Manager",
                         principalColumn: "Id",
@@ -204,10 +178,10 @@ namespace RedMotors.Database.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EngineerManager_ManagersId",
+                name: "IX_Manager_EngineerId",
                 schema: "RedMotors",
-                table: "EngineerManager",
-                column: "ManagersId");
+                table: "Manager",
+                column: "EngineerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TransactionLines_EngineerId",
@@ -244,20 +218,26 @@ namespace RedMotors.Database.Migrations
                 schema: "RedMotors",
                 table: "Transactions",
                 column: "ManagerId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Engineer_Manager_ManagerId",
+                schema: "RedMotors",
+                table: "Engineer",
+                column: "ManagerId",
+                principalSchema: "RedMotors",
+                principalTable: "Manager",
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "EngineerManager",
-                schema: "RedMotors");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Engineer_Manager_ManagerId",
+                schema: "RedMotors",
+                table: "Engineer");
 
             migrationBuilder.DropTable(
                 name: "TransactionLines",
-                schema: "RedMotors");
-
-            migrationBuilder.DropTable(
-                name: "Engineer",
                 schema: "RedMotors");
 
             migrationBuilder.DropTable(
@@ -278,6 +258,10 @@ namespace RedMotors.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Manager",
+                schema: "RedMotors");
+
+            migrationBuilder.DropTable(
+                name: "Engineer",
                 schema: "RedMotors");
         }
     }

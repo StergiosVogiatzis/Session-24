@@ -42,7 +42,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ManagerItem = await httpClient.GetFromJsonAsync<ManagerEditViewModel>($"manager/{(Id == null ? 0 : Id)}");
+        //if(ManagerItem == null)
+        //{
+        //    ManagerItem = new();
+        //}
+        //else
+        //{
+            ManagerItem = await httpClient.GetFromJsonAsync<ManagerEditViewModel>($"manager/{(Id == null ? Guid.Empty : Id)}");
+        //}
     }
 
     protected async Task OnSave()

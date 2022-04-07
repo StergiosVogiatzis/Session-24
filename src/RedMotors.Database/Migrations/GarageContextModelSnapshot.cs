@@ -22,21 +22,6 @@ namespace RedMotors.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("EngineerManager", b =>
-                {
-                    b.Property<Guid>("EngineersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ManagersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EngineersId", "ManagersId");
-
-                    b.HasIndex("ManagersId");
-
-                    b.ToTable("EngineerManager", "RedMotors");
-                });
-
             modelBuilder.Entity("RedMotors.Entities.Car", b =>
                 {
                     b.Property<Guid>("Id")
@@ -130,6 +115,9 @@ namespace RedMotors.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("EngineerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -145,6 +133,8 @@ namespace RedMotors.Database.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EngineerId");
 
                     b.ToTable("Manager", "RedMotors");
                 });
@@ -243,21 +233,6 @@ namespace RedMotors.Database.Migrations
                     b.ToTable("TransactionLines", "RedMotors");
                 });
 
-            modelBuilder.Entity("EngineerManager", b =>
-                {
-                    b.HasOne("RedMotors.Entities.Engineer", null)
-                        .WithMany()
-                        .HasForeignKey("EngineersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RedMotors.Entities.Manager", null)
-                        .WithMany()
-                        .HasForeignKey("ManagersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
                 {
                     b.HasOne("RedMotors.Entities.Manager", "Manager")
@@ -267,6 +242,13 @@ namespace RedMotors.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("RedMotors.Entities.Manager", b =>
+                {
+                    b.HasOne("RedMotors.Entities.Engineer", null)
+                        .WithMany("Managers")
+                        .HasForeignKey("EngineerId");
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Transaction", b =>
@@ -321,6 +303,11 @@ namespace RedMotors.Database.Migrations
                     b.Navigation("ServiceTask");
 
                     b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
+                {
+                    b.Navigation("Managers");
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Transaction", b =>

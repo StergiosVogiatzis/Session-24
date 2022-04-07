@@ -24,10 +24,9 @@ else
             <input class="form-control" @bind="@EngineerItem.SalaryPerMonth" />
         </div>
         <div class="col-md-6">
-            @foreach (var item in EngineerItem.Managers){
-            <input class="form-control" @bind="ManagerItem.Name"/>
+            <label class="form-label">Manager</label>
             <ManagerSelect Managers="EngineerItem.Managers" @bind-Value="newManagerId"/>
-            }
+            
         </div>
 
     </div>

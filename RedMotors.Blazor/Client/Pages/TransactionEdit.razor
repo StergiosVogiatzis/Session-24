@@ -44,14 +44,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if(TransactionItem == null)
-        {
-            TransactionItem = new TransactionEditViewModel();
-        }
-        else
-        {
-            TransactionItem = await httpClient.GetFromJsonAsync<TransactionEditViewModel>($"transaction/{(Id == null ? 0 : Id)}");
-        }
+        //if(TransactionItem == null)
+        //{
+        //    TransactionItem = new TransactionEditViewModel();
+        //}
+        //else
+        //{
+            TransactionItem = await httpClient.GetFromJsonAsync<TransactionEditViewModel>($"transaction/{(Id == null ? Guid.Empty : Id)}");
+        //}
     }
 
     protected async Task OnSave()

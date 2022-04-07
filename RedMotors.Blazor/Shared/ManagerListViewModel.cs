@@ -21,7 +21,7 @@ namespace RedMotors.Blazor.Shared
         public string Name { get; set; }
         public string Surname { get; set; }
         public decimal SalaryPerMonth { get; set; }
-        public List<EngineerEditViewModel> Engineers { get; set; } = new();
+       
 
     }
 
