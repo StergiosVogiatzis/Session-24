@@ -1,11 +1,10 @@
 ﻿@page "/managerlist"
 @inject HttpClient httpClient
+@inject NavigationManager navigationManager
 
 <h3>Manager List</h3>
 
-<input @bind=managerName placeholder="Type Name..."/>
-<input @bind=managerSurname placeholder="Type Surname..."/>
-<input @bind=managerSalaryPerMonth placeholder="Type Salary Per Month..."/>
+
 <button class="btn btn-primary" @onclick="AddManager">Add New Manager</button>
 @if (isLoading)
 {
@@ -26,15 +25,15 @@
         {
             <tr>
                 @*<td>@manager.Id</td>*@
-                <td><input value="@manager.Name" @onchange="(m)=> NameChanged(m, manager)"/></td>
-                <td><input value="@manager.Surname" @onchange="(m)=> SurnameChanged(m, manager)" /></td>
-                <td><input value="@manager.SalaryPerMonth" @onchange="(m)=> SalaryPerMonthChanged(m, manager)"/></td>
-                <td><button class="btn btn-danger" @onclick="(m) => DeleteManager(m, manager)">Delete</button></td>
+                <td>@manager.Name</td>
+                <td>@manager.Surname</td>
+                <td>@manager.SalaryPerMonth</td>
+                <td>
+                    <button class="btn btn-success" @onclick="() => EditManager(manager)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteManager(manager)">Delete</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-}
-@code {
-
 }

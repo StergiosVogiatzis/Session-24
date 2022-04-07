@@ -1,0 +1,75 @@
+﻿@page "/engineerlist/edit/{Id:guid?}"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Engineer</h3>
+
+@if (EngineerItem == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input class="form-control" @bind="@EngineerItem.Name" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Surname</label>
+            <input class="form-control" @bind="@EngineerItem.Surname" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Salary Per Month</label>
+            <input class="form-control" @bind="@EngineerItem.SalaryPerMonth" />
+        </div>
+        <div class="col-md-6">
+            @foreach (var item in EngineerItem.Managers){
+            <input class="form-control" @bind="ManagerItem.Name"/>
+            <ManagerSelect Managers="EngineerItem.Managers" @bind-Value="newManagerId"/>
+            }
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    private Guid newManagerId { get; set; } = Guid.Empty;
+    EngineerEditViewModel EngineerItem { get; set; } = new();
+    ManagerEditViewModel ManagerItem { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        EngineerItem = await httpClient.GetFromJsonAsync<EngineerEditViewModel>($"engineer/{(Id == null ? 0 : Id)}");
+    }
+
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("engineer", EngineerItem);
+        }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("engineer", EngineerItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("engineerlist");
+    }
+
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("engineerlist");
+    }
+}
