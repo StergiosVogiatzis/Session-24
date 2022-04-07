@@ -13,6 +13,6 @@ internal sealed class EngineerConfiguration : IEntityTypeConfiguration<Engineer>
         builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
         builder.Property(c => c.Surname).HasMaxLength(50).IsRequired();
         builder.Property(c => c.SalaryPerMonth).HasMaxLength(50).IsRequired();
-        builder.HasOne(c => c.Manager).WithMany().HasForeignKey(c => c.ManagerId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(engineer => engineer.Manager).WithMany(manager => manager.Engineers).HasForeignKey(engineer => engineer.ManagerId).OnDelete(DeleteBehavior.NoAction);
     }
 }

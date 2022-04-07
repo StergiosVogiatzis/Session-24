@@ -236,7 +236,7 @@ namespace RedMotors.Database.Migrations
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
                 {
                     b.HasOne("RedMotors.Entities.Manager", "Manager")
-                        .WithMany()
+                        .WithMany("Engineers")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -308,6 +308,11 @@ namespace RedMotors.Database.Migrations
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
                 {
                     b.Navigation("Managers");
+                });
+
+            modelBuilder.Entity("RedMotors.Entities.Manager", b =>
+                {
+                    b.Navigation("Engineers");
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Transaction", b =>
