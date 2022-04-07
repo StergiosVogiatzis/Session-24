@@ -47,9 +47,9 @@ namespace RedMotors.Blazor.Server.Controllers
             {
                 var existing = await _transactionRepo.GetByIdAsync(id);
                 model.Id = existing.Id;
-                //model.CarId = existing.CarId;
-                //model.CustomerId = existing.CustomerId;
-                //model.ManagerId = existing.ManagerId;
+                model.CarId = existing.CarId;
+                model.CustomerId = existing.CustomerId;
+                model.ManagerId = existing.ManagerId;
                 model.TotalPrice = existing.TotalPrice;
                 
                 model.TransactionLines = existing.Lines.Select(transactionLine => new TransactionLineViewModel
@@ -107,26 +107,28 @@ namespace RedMotors.Blazor.Server.Controllers
         [HttpPost]
         public async Task Post(TransactionEditViewModel transaction)
         {
-            var newTransaction = new Transaction()
+            Transaction newTransaction = new Transaction
             {
+                Id = transaction.Id,
+                Date = transaction.Date,
                 CarId = transaction.CarId,
                 ManagerId = transaction.ManagerId,
                 CustomerId = transaction.CustomerId,
             };
 
-            foreach (var transactionsLine in transaction.TransactionLines)
-            {
-                newTransaction.Lines.Add(new TransactionLine()
-                {
-                    Id = transactionsLine.Id,
-                    EngineerId = transactionsLine.EngineerId,
-                    Hours = transactionsLine.Hours,
-                    PricePerHour = transactionsLine.PricePerHour,
-                    Price = transactionsLine.TotalPrice,
-                    ServiceTaskId = transactionsLine.ServiceTaskId,
-                    TransactionId = transactionsLine.TransactionId
-                });
-            }
+            //foreach (var transactionsLine in transaction.TransactionLines)
+            //{
+            //    newTransaction.Lines.Add(new TransactionLine()
+            //    {
+            //        Id = transactionsLine.Id,
+            //        EngineerId = transactionsLine.EngineerId,
+            //        Hours = transactionsLine.Hours,
+            //        PricePerHour = transactionsLine.PricePerHour,
+            //        Price = transactionsLine.TotalPrice,
+            //        ServiceTaskId = transactionsLine.ServiceTaskId,
+            //        TransactionId = transactionsLine.TransactionId
+            //    });
+            //}
             await _transactionRepo.AddAsync(newTransaction);
         }
 

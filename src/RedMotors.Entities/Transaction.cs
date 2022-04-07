@@ -6,9 +6,9 @@ public class Transaction
     private Car? _car;
     private Manager? _manager;
 
-    public Guid Id { get; }
+    public Guid Id { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateTime Date { get; set; } = DateTime.Now;
 
     public Customer Customer
     {
