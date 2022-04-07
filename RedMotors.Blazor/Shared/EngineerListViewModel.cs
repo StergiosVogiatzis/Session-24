@@ -26,13 +26,7 @@ namespace RedMotors.Blazor.Shared
         public List<ManagerEditViewModel> Managers { get; set; } = new();
     }
 
-    public class ManagerEditListViewModel
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
 
-    }
 }
 
 

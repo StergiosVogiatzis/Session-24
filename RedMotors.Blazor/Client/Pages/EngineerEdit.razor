@@ -1,6 +1,7 @@
 ﻿@page "/engineerlist/edit/{Id:guid?}"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
+@inject IJSRuntime iJSRunTime
 
 <h3>Engineer</h3>
 
@@ -25,7 +26,7 @@ else
         </div>
         <div class="col-md-6">
             <label class="form-label">Manager</label>
-            <ManagerSelect Managers="EngineerItem.Managers" 
+            <ManagerSelect Managers="EngineerItem.Managers" ManagerID="EngineerItem.ManagerId" 
                            ShowPlaceholder=true
                            @bind-Value="newManagerId"/>
         </div>
@@ -51,10 +52,18 @@ else
     protected override async Task OnInitializedAsync()
     {
         EngineerItem = await httpClient.GetFromJsonAsync<EngineerEditViewModel>($"engineer/{(Id == null ? Guid.Empty : Id)}");
+        //ManagerItem = await httpClient.GetFromJsonAsync<ManagerEditViewModel>($"manager/{(Id == null ? Guid.Empty : Id)}");
     }
 
     protected async Task OnSave()
     {
+        //if (string.IsNullOrWhiteSpace(EngineerItem.Name) || string.IsNullOrWhiteSpace(EngineerItem.Surname) || EngineerItem.SalaryPerMonth < 0 || newManagerId == Guid.Empty)
+        //{
+        //await iJSRunTime.InvokeVoidAsync("Validation", null);
+        //return;
+        //} 
+        if (newManagerId == Guid.Empty) return;
+
         EngineerItem.ManagerId = newManagerId;
         HttpResponseMessage response;
         if (Id == Guid.Empty)
@@ -63,6 +72,7 @@ else
         }
         else
         {
+
             response = await httpClient.PutAsJsonAsync("engineer", EngineerItem);
         }
         response.EnsureSuccessStatusCode();

@@ -8,18 +8,25 @@ namespace RedMotors.Blazor.Client.Pages
     public partial class EngineerList
     {
         List<EngineerListViewModel> engineerList = new();
-        public List<ManagerEditListViewModel> managers { get; set; }
+
+        private List<ManagerListViewModel> managerList = new();
+
         bool isLoading = true;
 
         protected override async Task OnInitializedAsync()
         {
+
             await LoadEngineerFromServer();
+            await LoadManagerFromServer();
             isLoading = false;
         }
 
+        private async Task LoadManagerFromServer()
+        {
+            managerList = await httpClient.GetFromJsonAsync<List<ManagerListViewModel>>("manager");
+        }
         private async Task LoadEngineerFromServer()
         {
-            managers = await httpClient.GetFromJsonAsync<List<ManagerEditListViewModel>>("manager");
             engineerList = await httpClient.GetFromJsonAsync<List<EngineerListViewModel>>("engineer");
         }
         async Task AddEngineer()
@@ -37,6 +44,7 @@ namespace RedMotors.Blazor.Client.Pages
         async Task EditEngineer(EngineerListViewModel engineerToEdit)
         {
             navigationManager.NavigateTo($"/engineerlist/edit/{engineerToEdit.Id}");
+            
         }
 
     }
