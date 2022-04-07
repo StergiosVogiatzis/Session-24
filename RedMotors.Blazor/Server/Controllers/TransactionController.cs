@@ -114,6 +114,7 @@ namespace RedMotors.Blazor.Server.Controllers
                 CarId = transaction.CarId,
                 ManagerId = transaction.ManagerId,
                 CustomerId = transaction.CustomerId,
+                
             };
 
             //foreach (var transactionsLine in transaction.TransactionLines)
@@ -141,6 +142,7 @@ namespace RedMotors.Blazor.Server.Controllers
             itemToUpdate.CarId = transaction.CarId;
             itemToUpdate.CustomerId = transaction.CustomerId;
             itemToUpdate.ManagerId = transaction.ManagerId;
+            
             
             itemToUpdate.Lines = transaction.TransactionLines.Select(transactionLine => new TransactionLine()
             {
