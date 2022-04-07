@@ -1,0 +1,76 @@
+﻿@page "/transactionlist/edit/{Id:guid?}"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+ 
+
+<h3>Transaction Edit</h3>
+@if (TransactionItem == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Customer</label>
+            <CustomerSelect Customers="TransactionItem.Customers"
+                            ShowPlaceholder=true
+                            @bind-value="newCustomerId"/>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Car</label>
+            <input class="form-control" @bind="@TransactionItem.CarId" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Manager</label>
+            <input class="form-control" @bind="@TransactionItem.ManagerId" />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+    TransactionEditViewModel TransactionItem { get; set; }
+    private Guid newCustomerId { get; set; } = Guid.Empty;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(TransactionItem == null)
+        {
+            TransactionItem = new TransactionEditViewModel();
+        }
+        else
+        {
+            TransactionItem = await httpClient.GetFromJsonAsync<TransactionEditViewModel>($"transaction/{(Id == null ? 0 : Id)}");
+        }
+    }
+
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("transaction", TransactionItem);
+        }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("transaction", TransactionItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("transactionlist");
+    }
+
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("transactionlist");
+    }
+}

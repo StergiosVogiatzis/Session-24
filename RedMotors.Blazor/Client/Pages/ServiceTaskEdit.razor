@@ -1,0 +1,89 @@
+﻿@page "/ServiceTaskList/edit/{Id:guid?}"
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3> Service Task Edit </h3>
+
+@if (ServiceTaskItem ==null){
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label">Code</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Code" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Description</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Description" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Hours</label>
+            <input class="form-control" @bind="@ServiceTaskItem.Hours" />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <button class="btn btn-success" @onclick="OnSave">Save</button>
+            <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
+        </div>
+    </div>
+}
+
+@code{
+    [Parameter] public Guid? Id{ get; set; }
+    ServiceTaskEditViewModel ServiceTaskItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(ServiceTaskItem == null)
+        {
+            ServiceTaskItem = new ServiceTaskEditViewModel();
+        }
+        else
+        {
+            ServiceTaskItem = await httpClient.GetFromJsonAsync<ServiceTaskEditViewModel>($"serviceTask/{(Id == null ? 0:Id)}");
+        }
+    }
+
+    async Task AddItem()
+    {
+        if (string.IsNullOrWhiteSpace(ServiceTaskItem.Code)
+        && string.IsNullOrWhiteSpace(ServiceTaskItem.Description)
+        && ServiceTaskItem.Hours is null || ServiceTaskItem.Hours == 0) return;
+        if(ServiceTaskItem.Hours > 8m ) 
+            return;
+        var newServiceTask = new ServiceTaskListViewModel
+        {
+            Code = ServiceTaskItem.Code,
+            Description = ServiceTaskItem.Description,
+            Hours = ServiceTaskItem.Hours,
+        };
+        ServiceTaskItem.Code = null;
+        ServiceTaskItem.Description = null;
+        ServiceTaskItem.Hours = 0;
+        await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
+        //await LoadItemsFromServer();
+    }
+ 
+    protected async Task OnSave()
+    {
+        HttpResponseMessage response;
+        if (Id == null)
+        {
+            response = await httpClient.PostAsJsonAsync("serviceTask", ServiceTaskItem);
+        }
+        else
+        {
+            response = await httpClient.PutAsJsonAsync("serviceTask", ServiceTaskItem);
+        }
+        response.EnsureSuccessStatusCode();
+        navigationManager.NavigateTo("serviceTasklist");
+    }
+    protected void OnCancel()
+    {
+        navigationManager.NavigateTo("serviceTasklist");
+    }
+}

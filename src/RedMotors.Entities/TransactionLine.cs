@@ -6,7 +6,7 @@ public class TransactionLine
     private ServiceTask? _serviceTask;
     private Engineer? _engineer;
 
-    public Guid Id { get; }
+    public Guid Id { get; set; }
 
     public Transaction Transaction
     {
@@ -32,9 +32,9 @@ public class TransactionLine
 
     public Guid EngineerId { get; set; }
 
-    public decimal Hours { get; }
+    public decimal Hours { get; set; }
 
-    public decimal PricePerHour { get; }
+    public decimal PricePerHour { get; set; } = 44.5m;
 
     public decimal Price { get; set; }
 

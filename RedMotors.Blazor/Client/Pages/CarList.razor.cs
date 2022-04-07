@@ -6,9 +6,6 @@ namespace RedMotors.Blazor.Client.Pages
 {
     public partial class CarList
     {
-        private string BrandText { get; set; }
-        private string ModelText { get; set; }
-        private string RegNumText { get; set; }
         List<CarListViewModel> carList = new();
         bool isLoading = true;
 
@@ -25,20 +22,11 @@ namespace RedMotors.Blazor.Client.Pages
 
         async Task AddItem()
         {
-            if (string.IsNullOrWhiteSpace(BrandText) && string.IsNullOrWhiteSpace(ModelText) && string.IsNullOrWhiteSpace(RegNumText)) return;
-            var newCar = new CarListViewModel
-            {
-                Brand = BrandText,
-                Model = ModelText,
-                CarRegistrationNumber = RegNumText
-            };
-            BrandText = null;
-            ModelText = null;
-            RegNumText = null;
-
-            await httpClient.PostAsJsonAsync("car", newCar);
-            await LoadItemsFromServer();
-            
+            navigationManager.NavigateTo("/carlist/edit");
+        }
+        async Task EditItem(CarListViewModel itemToEdit)
+        {
+            navigationManager.NavigateTo($"/carlist/edit/{itemToEdit.Id}");
         }
 
         async Task DeleteItem(CarListViewModel itemToDelete)
@@ -47,28 +35,5 @@ namespace RedMotors.Blazor.Client.Pages
                 response.EnsureSuccessStatusCode();
                 await LoadItemsFromServer();  
         }
-
-        async Task BrandChanged(ChangeEventArgs e, CarListViewModel item)
-        {
-            item.Brand = e.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("car", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-        async Task ModelChanged(ChangeEventArgs e, CarListViewModel item)
-        {
-            item.Model = e.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("car", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-        async Task RegNumChanged(ChangeEventArgs e, CarListViewModel item)
-        {
-            item.CarRegistrationNumber = e.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("car", item);
-            response.EnsureSuccessStatusCode();
-            await LoadItemsFromServer();
-        }
-
     }
 }

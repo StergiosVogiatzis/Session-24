@@ -30,9 +30,23 @@ namespace RedMotors.Blazor.Server.Controllers
                
             });
         }
+        [HttpGet("{id}")]
+        public async Task<CarEditListViewModel> Get(Guid id)
+        {
+            CarEditListViewModel model = new();
+            if (id != Guid.Empty)
+            {
+                var existing = await _carRepo.GetByIdAsync(id);
+                model.Id = existing.Id;
+                model.Brand = existing.Brand;
+                model.Model = existing.Model;
+                model.CarRegistrationNumber = existing.CarRegistrationNumber;
+            }
+            return model;
+        }
 
         [HttpPost]
-        public async Task Post(CarListViewModel car)
+        public async Task Post(CarEditListViewModel car)
         {
             var newCar = new Car
             {
@@ -42,6 +56,7 @@ namespace RedMotors.Blazor.Server.Controllers
             };
             await _carRepo.AddAsync(newCar);
         }
+        
 
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
@@ -50,7 +65,7 @@ namespace RedMotors.Blazor.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(CarListViewModel car)
+        public async Task<ActionResult> Put(CarEditListViewModel car)
         {
             var itemToUpdate = await _carRepo.GetByIdAsync(car.Id);
             if (itemToUpdate == null) return NotFound();

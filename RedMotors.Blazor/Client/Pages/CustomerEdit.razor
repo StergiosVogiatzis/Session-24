@@ -48,13 +48,13 @@ else
     {
         if(CustomerItem == null)
         {
-            CustomerItem = new CustomerEditListViewModel();
+            CustomerItem = new();
         }
         else
         {
             CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? 0 : Id)}");
         }
-        CustomerItem = await httpClient.GetFromJsonAsync<CustomerEditListViewModel>($"customer/{(Id == null ? 0 : Id)}");
+        
     }
 
     protected async Task OnSave()
