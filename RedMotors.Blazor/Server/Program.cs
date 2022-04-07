@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<GarageContext>();
-
-//builder.Services.AddRedMotorsDatabase();
 builder.Services.AddTransient<IEntityRepo<Customer>, CustomerRepo>();
 builder.Services.AddTransient<IEntityRepo<Car>, CarRepo>();
 builder.Services.AddTransient<IEntityRepo<Manager>, ManagerRepo>();

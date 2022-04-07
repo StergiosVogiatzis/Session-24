@@ -1,6 +1,7 @@
 ﻿@page "/transactionlist/edit/{Id:guid?}"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
+ 
 
 <h3>Transaction Edit</h3>
 @if (TransactionItem == null)
@@ -13,8 +14,8 @@ else
         <div class="col-md-6">
             <label class="form-label">Customer</label>
             <CustomerSelect Customers="TransactionItem.Customers"
-                                 ShowPlaceholder=true
-                                 @bind-Value="newCustomerId" />
+                            ShowPlaceholder=true
+                            @bind-value="newCustomerId"/>
         </div>
         <div class="col-md-6">
             <label class="form-label">Car</label>
