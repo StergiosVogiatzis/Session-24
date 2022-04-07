@@ -30,12 +30,17 @@ public class TransactionRepo : IEntityRepo<Transaction>
 
     public async Task<IEnumerable<Transaction>> GetAllAsync()
     {
-        return await _context.Transactions.ToListAsync();
+        return await _context.Transactions.Include(transaction => transaction.Car)
+                                          .Include(transaction => transaction.Customer)
+                                          .Include(transaction => transaction.Manager)
+                                          .ToListAsync();
     }
 
     public Task<Transaction?> GetByIdAsync(Guid id)
     {
-        return _context.Transactions.SingleOrDefaultAsync(x => x.Id == id);
+        return _context.Transactions.Include(transaction => transaction.Car)
+                                    .Include(transaction => transaction.Customer)
+                                    .Include(transaction => transaction.Manager).SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task UpdateAsync(Guid id, Transaction entity)

@@ -8,7 +8,9 @@ namespace RedMotors.Blazor.Client.Pages
     public partial class EngineerList
     {
         List<EngineerListViewModel> engineerList = new();
+
         private List<ManagerListViewModel> managerList = new();
+
         bool isLoading = true;
 
         protected override async Task OnInitializedAsync()

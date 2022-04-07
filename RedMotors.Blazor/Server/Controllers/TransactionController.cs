@@ -12,12 +12,20 @@ namespace RedMotors.Blazor.Server.Controllers
         private readonly IEntityRepo<Transaction> _transactionRepo;
         private readonly IEntityRepo<TransactionLine> _transactionLineRepo;
         private readonly IEntityRepo<Customer> _customerRepo;
+        private readonly IEntityRepo<Car> _carRepo;
+        private readonly IEntityRepo<Manager> _managerRepo;
+        private readonly IEntityRepo<Engineer> _engineerRepo;
+        private readonly IEntityRepo<ServiceTask> _serviceTaskRepo;
 
-        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo, IEntityRepo<Customer> customerRepo)
+        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo,  IEntityRepo<Customer> customerRepo, IEntityRepo<Car> carRepo, IEntityRepo<Manager> managerRepo, IEntityRepo<Engineer> engineerRepo, IEntityRepo<ServiceTask> serviceTaskRepo)
         {
             _transactionRepo = transactionRepo;
             _transactionLineRepo = transactionLineRepo;
             _customerRepo = customerRepo;
+            _carRepo = carRepo;
+            _managerRepo = managerRepo;
+            _engineerRepo = engineerRepo;
+            _serviceTaskRepo = serviceTaskRepo;
            
         }
 
@@ -33,11 +41,13 @@ namespace RedMotors.Blazor.Server.Controllers
                 ManagerId = x.ManagerId,
                 TotalPrice = x.TotalPrice
             });
+
         }
 
         [HttpGet("{id}")]
         public async Task<TransactionEditViewModel> Get(Guid id)
         {
+            TransactionEditLineViewModel line = new();
             TransactionEditViewModel model = new();
             if (id != Guid.Empty)
             {
@@ -56,10 +66,30 @@ namespace RedMotors.Blazor.Server.Controllers
                     PricePerHour = transactionLine.PricePerHour,
                     TotalPrice = transactionLine.Price,
                     ServiceTaskId = transactionLine.ServiceTaskId,
-                    TransactionId = transactionLine.TransactionId
+                    TransactionId = transactionLine.TransactionId,
+                    
+
+                    
                     
                 }).ToList();
+                
             }
+            var engineer = await _engineerRepo.GetAllAsync();
+            line.Engineers = engineer.Select(x => new EngineerEditViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surname = x.Surname
+            }).ToList();
+
+            var serviceTask = await _serviceTaskRepo.GetAllAsync();
+            line.ServiceTasks = serviceTask.Select(x => new ServiceTaskEditViewModel
+            {
+                Id = x.Id,
+                Code = x.Code,
+                Description = x.Description,
+                Hours = x.Hours  
+            }).ToList();
 
             var customer = await _customerRepo.GetAllAsync();
             model.Customers = customer.Select(x => new CustomerEditListViewModel
@@ -70,6 +100,23 @@ namespace RedMotors.Blazor.Server.Controllers
                 Phone = x.Phone,
                 TIN = x.TIN
                
+            }).ToList();
+            var car = await _carRepo.GetAllAsync();
+            model.Cars = car.Select(x => new CarEditListViewModel
+            {
+                Id = x.Id,
+                Brand = x.Brand,
+                Model = x.Model,
+                CarRegistrationNumber = x.CarRegistrationNumber
+
+            }).ToList();
+            var manager = await _managerRepo.GetAllAsync();
+            model.Managers = manager.Select(x => new ManagerEditViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surname = x.Surname,
+                SalaryPerMonth = x.SalaryPerMonth,    
             }).ToList();
 
             return model;
@@ -86,26 +133,29 @@ namespace RedMotors.Blazor.Server.Controllers
         [HttpPost]
         public async Task Post(TransactionEditViewModel transaction)
         {
-            var newTransaction = new Transaction()
+            Transaction newTransaction = new Transaction
             {
+                Id = transaction.Id,
+                Date = transaction.Date,
                 CarId = transaction.CarId,
                 ManagerId = transaction.ManagerId,
                 CustomerId = transaction.CustomerId,
+                
             };
 
-            foreach (var transactionsLine in transaction.TransactionLines)
-            {
-                newTransaction.Lines.Add(new TransactionLine()
-                {
-                    Id = transactionsLine.Id,
-                    EngineerId = transactionsLine.EngineerId,
-                    Hours = transactionsLine.Hours,
-                    PricePerHour = transactionsLine.PricePerHour,
-                    Price = transactionsLine.TotalPrice,
-                    ServiceTaskId = transactionsLine.ServiceTaskId,
-                    TransactionId = transactionsLine.TransactionId
-                });
-            }
+            //foreach (var transactionsLine in transaction.TransactionLines)
+            //{
+            //    newTransaction.Lines.Add(new TransactionLine()
+            //    {
+            //        Id = transactionsLine.Id,
+            //        EngineerId = transactionsLine.EngineerId,
+            //        Hours = transactionsLine.Hours,
+            //        PricePerHour = transactionsLine.PricePerHour,
+            //        Price = transactionsLine.TotalPrice,
+            //        ServiceTaskId = transactionsLine.ServiceTaskId,
+            //        TransactionId = transactionsLine.TransactionId
+            //    });
+            //}
             await _transactionRepo.AddAsync(newTransaction);
         }
 
@@ -118,6 +168,7 @@ namespace RedMotors.Blazor.Server.Controllers
             itemToUpdate.CarId = transaction.CarId;
             itemToUpdate.CustomerId = transaction.CustomerId;
             itemToUpdate.ManagerId = transaction.ManagerId;
+            
             
             itemToUpdate.Lines = transaction.TransactionLines.Select(transactionLine => new TransactionLine()
             {

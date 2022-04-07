@@ -24,9 +24,10 @@ else{
             @foreach(var transaction in transactionList)
             {
                 <tr>
-                    <td>@transaction.CustomerId</td>
-                    <td>@transaction.CarId</td>
-                    <td>@transaction.ManagerId</td>
+                    
+                    <td>@customers.Find(x=>x.Id == transaction.CustomerId).Name</td>     
+                    <td>@cars.Find(x=>x.Id == transaction.CarId).Model</td>
+                    <td>@managers.Find(x=>x.Id == transaction.ManagerId).Name</td>
                     <td>@transaction.TotalPrice</td>
                     <td>
                         <button class="btn btn-primary" @onclick="() => EditItem(transaction)">Edit</button>
@@ -37,4 +38,5 @@ else{
         </tbody>
     </table>
 }
+
 

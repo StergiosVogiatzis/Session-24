@@ -1,16 +1,16 @@
 ﻿<select class="ms-2 form-select" aria-label="Default select example" value="@Value" @onchange="OnChange">
     @if (ShowPlaceholder)
     {
-        <option value="Guid.Empty">Select Customer</option>    
+        <option value="Guid.Empty">Select Service Task</option>    
     }
-    @foreach (var customer in Customers)
+    @foreach (var serviceTask in ServiceTasks)
     {
-        <option value="@customer.Id"> @customer.Name </option>
+        <option value="@serviceTask.Id"> @serviceTask.Description </option>
     }
 </select>
 
 @code{
-    [Parameter] public List<CustomerEditListViewModel> Customers { get; set; }
+    [Parameter] public List<ServiceTaskEditViewModel> ServiceTasks { get; set; }
     [Parameter] public bool ShowPlaceholder { get; set; }
     [Parameter] public Guid Value { get; set; }
     [Parameter] public EventCallback<Guid> ValueChanged { get; set; }
