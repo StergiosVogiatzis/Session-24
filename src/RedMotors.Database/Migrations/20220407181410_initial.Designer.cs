@@ -12,7 +12,7 @@ using RedMotors.Database;
 namespace RedMotors.Database.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20220407123615_initial")]
+    [Migration("20220407181410_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,7 +238,7 @@ namespace RedMotors.Database.Migrations
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
                 {
                     b.HasOne("RedMotors.Entities.Manager", "Manager")
-                        .WithMany()
+                        .WithMany("Engineers")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -310,6 +310,11 @@ namespace RedMotors.Database.Migrations
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
                 {
                     b.Navigation("Managers");
+                });
+
+            modelBuilder.Entity("RedMotors.Entities.Manager", b =>
+                {
+                    b.Navigation("Engineers");
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Transaction", b =>
