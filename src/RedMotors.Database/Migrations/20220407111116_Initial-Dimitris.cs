@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RedMotors.Database.Migrations
 {
-    public partial class Initia : Migration
+    public partial class InitialDimitris : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -133,6 +133,33 @@ namespace RedMotors.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EngineerManager",
+                schema: "RedMotors",
+                columns: table => new
+                {
+                    EngineersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ManagersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EngineerManager", x => new { x.EngineersId, x.ManagersId });
+                    table.ForeignKey(
+                        name: "FK_EngineerManager_Engineer_EngineersId",
+                        column: x => x.EngineersId,
+                        principalSchema: "RedMotors",
+                        principalTable: "Engineer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EngineerManager_Manager_ManagersId",
+                        column: x => x.ManagersId,
+                        principalSchema: "RedMotors",
+                        principalTable: "Manager",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TransactionLines",
                 schema: "RedMotors",
                 columns: table => new
@@ -177,6 +204,12 @@ namespace RedMotors.Database.Migrations
                 column: "ManagerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EngineerManager_ManagersId",
+                schema: "RedMotors",
+                table: "EngineerManager",
+                column: "ManagersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TransactionLines_EngineerId",
                 schema: "RedMotors",
                 table: "TransactionLines",
@@ -215,6 +248,10 @@ namespace RedMotors.Database.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "EngineerManager",
+                schema: "RedMotors");
+
             migrationBuilder.DropTable(
                 name: "TransactionLines",
                 schema: "RedMotors");

@@ -22,6 +22,21 @@ namespace RedMotors.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("EngineerManager", b =>
+                {
+                    b.Property<Guid>("EngineersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ManagersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("EngineersId", "ManagersId");
+
+                    b.HasIndex("ManagersId");
+
+                    b.ToTable("EngineerManager", "RedMotors");
+                });
+
             modelBuilder.Entity("RedMotors.Entities.Car", b =>
                 {
                     b.Property<Guid>("Id")
@@ -226,6 +241,21 @@ namespace RedMotors.Database.Migrations
                     b.HasIndex("TransactionId");
 
                     b.ToTable("TransactionLines", "RedMotors");
+                });
+
+            modelBuilder.Entity("EngineerManager", b =>
+                {
+                    b.HasOne("RedMotors.Entities.Engineer", null)
+                        .WithMany()
+                        .HasForeignKey("EngineersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RedMotors.Entities.Manager", null)
+                        .WithMany()
+                        .HasForeignKey("ManagersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
