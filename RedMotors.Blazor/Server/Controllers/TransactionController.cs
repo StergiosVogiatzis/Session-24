@@ -11,11 +11,13 @@ namespace RedMotors.Blazor.Server.Controllers
     {
         private readonly IEntityRepo<Transaction> _transactionRepo;
         private readonly IEntityRepo<TransactionLine> _transactionLineRepo;
+        private readonly IEntityRepo<Customer> _customerRepo;
 
-        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo)
+        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo, IEntityRepo<Customer> customerRepo)
         {
             _transactionRepo = transactionRepo;
             _transactionLineRepo = transactionLineRepo;
+            _customerRepo = customerRepo;
            
         }
 
@@ -59,16 +61,15 @@ namespace RedMotors.Blazor.Server.Controllers
                 }).ToList();
             }
 
-            var transactionLine = await _transactionLineRepo.GetAllAsync();
-            model.TransactionLines = transactionLine.Select(x => new TransactionLineViewModel
+            var customer = await _customerRepo.GetAllAsync();
+            model.Customers = customer.Select(x => new CustomerEditListViewModel
             {
                 Id = x.Id,
-                EngineerId = x.EngineerId,
-                Hours = x.Hours,
-                PricePerHour = x.PricePerHour,
-                TotalPrice = x.Price,
-                ServiceTaskId = x.ServiceTaskId,
-                TransactionId = x.TransactionId
+                Name = x.Name,
+                Surname = x.Surname,
+                Phone = x.Phone,
+                TIN = x.TIN
+               
             }).ToList();
 
             return model;
