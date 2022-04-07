@@ -20,13 +20,19 @@
         </tr>
     </thead>
     <tbody>
+        
         @foreach(var engineer in engineerList)
         {
             <tr>
                 <td>@engineer.Name</td>
                 <td>@engineer.Surname</td>
                 <td>@engineer.SalaryPerMonth</td>
-                @*<td>@engineer.ManagerList</td>*@
+                    <td>@if (managerList is not null)
+                        {
+                            @managerList.SingleOrDefault(x => x.Id == engineer.ManagerId).Name 
+                            @managerList.SingleOrDefault(x => x.Id == engineer.ManagerId).Surname
+                        }
+                    </td>
                 <td>
                     <button class="btn btn-success" @onclick="() => EditEngineer(engineer)">Edit</button>
                     <button class="btn btn-danger" @onclick="() => DeleteEngineer(engineer)">Delete</button>

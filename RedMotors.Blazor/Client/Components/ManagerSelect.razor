@@ -1,11 +1,19 @@
 ﻿<select class="ms-2 form-select" aria-label="Default select example" value="@Value" @onchange="OnChange">
     @if (ShowPlaceholder)
     {
-        <option value="-1">Select Manager</option>    
+        <option value="@Guid.Empty">Select Manager</option>    
     }
     @foreach (var manager in Managers)
     {
-        <option value="@manager.Id"> @manager.Name </option>
+        @if(manager.Id == ManagerID)
+        {
+            <option value="@manager.Id"selected> @manager.Name @manager.Surname </option>
+        }
+        else
+        {
+            <option value="@manager.Id"> @manager.Name @manager.Surname </option>
+        }
+        
     }
 </select>
 
@@ -14,9 +22,11 @@
     [Parameter] public bool ShowPlaceholder { get; set; }
     [Parameter] public Guid Value { get; set; }
     [Parameter] public EventCallback<Guid> ValueChanged { get; set; }
+    [Parameter] public Guid ManagerID { get; set; }
 
     private async Task OnChange(ChangeEventArgs e)
     {
+        
         Value = Guid.Parse(e.Value.ToString());
         await ValueChanged.InvokeAsync(Value);
     }
