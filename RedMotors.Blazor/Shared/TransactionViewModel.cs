@@ -23,6 +23,6 @@ namespace RedMotors.Blazor.Shared
         public Guid CustomerId { get; set; }
         public decimal TotalPrice { get; set; }
         public List<TransactionLineViewModel> TransactionLines { get; set; } = new();
-        public List<CustomerListViewModel> Customers { get; set; } = new();
+        public List<CustomerEditListViewModel> Customers { get; set; } = new();
     }
 }
