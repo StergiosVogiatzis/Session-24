@@ -60,7 +60,7 @@ else
     protected async Task OnSave()
     {
         HttpResponseMessage response;
-        if (Id == null)
+        if (Id == null || Id == Guid.Empty)
         {
             response = await httpClient.PostAsJsonAsync("customer", CustomerItem);
         }

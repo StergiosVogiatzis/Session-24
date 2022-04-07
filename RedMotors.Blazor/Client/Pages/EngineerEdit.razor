@@ -42,8 +42,8 @@ else
 
 @code {
     [Parameter] public Guid Id { get; set; }
-    private Guid newManagerId { get; set; } = Guid.Empty;
-    EngineerEditViewModel EngineerItem { get; set; } = new();
+    private Guid newManagerId { get; set; }
+    EngineerEditViewModel EngineerItem { get; set; }
     ManagerEditViewModel ManagerItem { get; set; }
 
 
@@ -56,7 +56,7 @@ else
     protected async Task OnSave()
     {
         HttpResponseMessage response;
-        if (Id == null)
+        if (Id == Guid.Empty)
         {
             response = await httpClient.PostAsJsonAsync("engineer", EngineerItem);
         }

@@ -35,7 +35,7 @@ public class EngineerRepo : IEntityRepo<Engineer>
 
     public Task<Engineer?> GetByIdAsync(Guid id)
     {
-        return _context.Engineers.SingleOrDefaultAsync(x => x.Id == id);
+        return _context.Engineers.Include(x => x.ManagerId).Include(x => x.Managers).SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task UpdateAsync(Guid id, Engineer entity)
