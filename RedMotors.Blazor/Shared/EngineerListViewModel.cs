@@ -13,8 +13,26 @@ namespace RedMotors.Blazor.Shared
         public string Surname { get; set; }
         public decimal SalaryPerMonth { get; set; }
         public Guid ManagerId { get; set; }
-        public List<ManagerListViewModel> ManagerList { get; set; } = new();
-       
+        public List<ManagerEditViewModel> Managers { get; set; } = new();
+
+    }
+    public class EngineerEditViewModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public decimal SalaryPerMonth { get; set; }
+        public Guid ManagerId { get; set; }
+        public List<ManagerEditViewModel> Managers { get; set; } = new();
     }
 
+    public class ManagerEditListViewModel
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+
+    }
 }
+
+

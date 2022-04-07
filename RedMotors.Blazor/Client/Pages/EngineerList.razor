@@ -1,11 +1,9 @@
 ﻿@page "/engineerlist"
 @inject HttpClient httpClient
+@inject NavigationManager navigationManager
 
 <h3>Engineer List</h3>
 
-<input @bind=engineerName placeholder="Type Name..."/>
-<input @bind=engineerSurname placeholder="Type Surname..."/>
-<input @bind=engineerSalaryPerMonth placeholder="Type Salary Per Month..."/>
 <button class="btn btn-primary" @onclick="AddEngineer">Add New Engineer</button>
 @if (isLoading)
 {
@@ -25,16 +23,16 @@
         @foreach(var engineer in engineerList)
         {
             <tr>
-                @*<td>@manager.Id</td>*@
-                <td><input value="@engineer.Name" @onchange="(m)=> NameChanged(m, engineer)"/></td>
-                <td><input value="@engineer.Surname" @onchange="(m)=> SurnameChanged(m, engineer)" /></td>
-                <td><input value="@engineer.SalaryPerMonth" @onchange="(m)=> SalaryPerMonthChanged(m, engineer)"/></td>
-                <td><button class="btn btn-danger" @onclick="(m) => DeleteEngineer(m, engineer)">Delete</button></td>
+                <td>@engineer.Name</td>
+                <td>@engineer.Surname</td>
+                <td>@engineer.SalaryPerMonth</td>
+                @*<td>@engineer.ManagerList</td>*@
+                <td>
+                    <button class="btn btn-success" @onclick="() => EditEngineer(engineer)">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteEngineer(engineer)">Delete</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-}
-@code {
-
 }

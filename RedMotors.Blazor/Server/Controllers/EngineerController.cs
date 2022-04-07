@@ -10,9 +10,11 @@ namespace RedMotors.Blazor.Server.Controllers
     public class EngineerController : ControllerBase
     {
         private readonly IEntityRepo<Engineer> _engineerRepo;
-        public EngineerController(IEntityRepo<Engineer> engineerRepo)
+        private readonly IEntityRepo<Manager> _managerRepo;
+        public EngineerController(IEntityRepo<Engineer> engineerRepo, IEntityRepo<Manager> managerRepo)
         {
             _engineerRepo = engineerRepo;
+            _managerRepo = managerRepo;
         }
 
         [HttpGet]
@@ -25,8 +27,24 @@ namespace RedMotors.Blazor.Server.Controllers
                 Name = engineer.Name,
                 Surname = engineer.Surname,
                 SalaryPerMonth = engineer.SalaryPerMonth,
+                ManagerId = engineer.ManagerId,
 
             });
+
+        }
+        [HttpGet("{Id}")]
+        public async Task<EngineerEditViewModel> Get(Guid Id)
+        {
+            EngineerEditViewModel viewModel = new EngineerEditViewModel();
+            if (Id != Guid.Empty)
+            {
+                var existing = await _managerRepo.GetByIdAsync(Id);
+                viewModel.Id = existing.Id;
+                viewModel.Name = existing.Name;
+                viewModel.Surname = existing.Surname;
+                viewModel.SalaryPerMonth = existing.SalaryPerMonth;
+            }
+            return viewModel;
 
         }
         [HttpPost]
@@ -38,8 +56,29 @@ namespace RedMotors.Blazor.Server.Controllers
             newEngineer.Name = engineer.Name;
             newEngineer.Surname = engineer.Surname;
             newEngineer.SalaryPerMonth = engineer.SalaryPerMonth;
+            newEngineer.ManagerId = engineer.ManagerId;
             await _engineerRepo.AddAsync(newEngineer);
         }
 
+        [HttpDelete("{ID}")]
+        public async Task DeleteEngineer(Guid id)
+        {
+            await _engineerRepo.DeleteAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(EngineerListViewModel engineer)
+        {
+            var engineerToUpdate = await _engineerRepo.GetByIdAsync(engineer.Id);
+            if (engineerToUpdate == null) return NotFound();
+
+            engineerToUpdate.Name = engineer.Name;
+            engineerToUpdate.Surname = engineer.Surname;
+            engineerToUpdate.SalaryPerMonth = engineer.SalaryPerMonth;
+            engineerToUpdate.ManagerId = engineer.ManagerId;
+            await _engineerRepo.UpdateAsync(engineer.Id, engineerToUpdate);
+
+            return Ok();
+        }
     }
 }

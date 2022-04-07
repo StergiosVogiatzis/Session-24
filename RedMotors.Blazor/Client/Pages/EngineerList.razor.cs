@@ -7,68 +7,36 @@ namespace RedMotors.Blazor.Client.Pages
 {
     public partial class EngineerList
     {
-        private string? engineerName { get; set; }
-        private string? engineerSurname { get; set; }
-        private decimal engineerSalaryPerMonth { get; set; }
-
         List<EngineerListViewModel> engineerList = new();
         bool isLoading = true;
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadEngineersFromServer();
+            await LoadEngineerFromServer();
             isLoading = false;
         }
 
-        private async Task LoadEngineersFromServer()
+        private async Task LoadEngineerFromServer()
         {
             engineerList = await httpClient.GetFromJsonAsync<List<EngineerListViewModel>>("engineer");
         }
         async Task AddEngineer()
         {
-            if (string.IsNullOrWhiteSpace(engineerName) && string.IsNullOrWhiteSpace(engineerSurname) && string.IsNullOrWhiteSpace(Convert.ToString(engineerSalaryPerMonth))) return;
-            var newEngineer = new EngineerListViewModel
-            {
-                Name = engineerName,
-                Surname = engineerSurname,
-                SalaryPerMonth = engineerSalaryPerMonth
-            };
-            engineerName = null;
-            engineerSurname = null;
-            engineerSalaryPerMonth = 0;
-
-
-            await httpClient.PostAsJsonAsync("engineer", newEngineer);
-            await LoadEngineersFromServer();
-
+            navigationManager.NavigateTo("/engineerlist/edit");
         }
 
-        void DeleteEngineer(MouseEventArgs e, EngineerListViewModel engineerToDelete)
+        async Task DeleteEngineer(EngineerListViewModel engineerToDelete)
         {
-            engineerList.Remove(engineerToDelete);
-        }
-
-        async Task NameChanged(ChangeEventArgs m, EngineerListViewModel item)
-        {
-            item.Name = m.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("engineer", item);
+            var response = await httpClient.DeleteAsync($"engineer/{engineerToDelete.Id}");
             response.EnsureSuccessStatusCode();
-            await LoadEngineersFromServer();
+            await LoadEngineerFromServer();
         }
-        async Task SurnameChanged(ChangeEventArgs m, EngineerListViewModel item)
+
+        async Task EditEngineer(EngineerListViewModel engineerToEdit)
         {
-            item.Surname = m.Value?.ToString();
-            var response = await httpClient.PutAsJsonAsync("engineer", item);
-            response.EnsureSuccessStatusCode();
-            await LoadEngineersFromServer();
+            navigationManager.NavigateTo($"/engineerlist/edit/{engineerToEdit.Id}");
         }
-        async Task SalaryPerMonthChanged(ChangeEventArgs m, EngineerListViewModel item)
-        {
-            (item.SalaryPerMonth) = Convert.ToDecimal(m.Value);
-            var response = await httpClient.PutAsJsonAsync("engineer", item);
-            response.EnsureSuccessStatusCode();
-            await LoadEngineersFromServer();
-        }
+
     }
 }
 
