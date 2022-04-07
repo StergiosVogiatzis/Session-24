@@ -44,6 +44,13 @@ namespace RedMotors.Blazor.Server.Controllers
                 viewModel.Surname = existing.Surname;
                 viewModel.SalaryPerMonth = existing.SalaryPerMonth;
             }
+            var manager = await _managerRepo.GetAllAsync();
+            viewModel.Managers = manager.Select(x => new ManagerEditViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surname = x.Surname,
+            }).ToList();
             return viewModel;
 
         }
