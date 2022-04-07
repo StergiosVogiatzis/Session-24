@@ -57,13 +57,13 @@ namespace RedMotors.Blazor.Server.Controllers
         [HttpPost]
         public async Task Post(EngineerEditViewModel engineer)
         {
-            var newEngineer = new Engineer {
+            Engineer newEngineer = new Engineer {
 
                 Id = engineer.Id,
                 Name = engineer.Name,
                 Surname = engineer.Surname,
                 SalaryPerMonth = engineer.SalaryPerMonth,
-                //ManagerId = engineer.ManagerId,
+                ManagerId = engineer.ManagerId,
             };
             //foreach (var manager in engineer.Managers)
             //{
