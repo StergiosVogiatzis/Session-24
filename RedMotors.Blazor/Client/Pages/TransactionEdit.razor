@@ -1,6 +1,7 @@
 ﻿@page "/transactionlist/edit/{Id:guid?}"
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
+
  
 
 <h3>Transaction Edit</h3>
@@ -37,14 +38,54 @@ else
             <button class="btn btn-danger" @onclick="OnCancel">Cancel</button>
         </div>
     </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            <div>
+                Engineer
+            </div>
+            <div class="input-group">
+                <EngineerSelect Engineers="TransactionLineItem.Engineers"
+                                ShowPlaceholder=true
+                                @bind-Value="newEngineerId" />
+            </div>
+        </div>
+        <div class="card-header">
+            <div>
+                Service Task
+            </div>
+            <div class="input-group">
+                <ServiceTaskSelect ServiceTasks="TransactionLineItem.ServiceTasks"
+                                   ShowPlaceholder=true
+                                   @bind-Value="newServiceTaskId" />
+            </div>
+        </div>
+    </div>
+    <div><button class="btn btn-primary mt-2" @onclick="AddTask">Add Service Task</button></div>
+    <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Service Task</th>
+                        <th>Engineer</th>
+                        <th>Hours</th>
+                        <th>Price Per Hour</th>
+                        <th>Total Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+     </div>
 }
 
 @code {
     [Parameter] public Guid? Id { get; set; }
     TransactionEditViewModel TransactionItem { get; set; }
-    private Guid newCustomerId { get; set; } = Guid.Empty;
-    private Guid newCarId { get; set; } = Guid.Empty;
-    private Guid newManagerId { get; set; } = Guid.Empty;
+    TransactionEditLineViewModel TransactionLineItem { get; set; }
+    private Guid newCustomerId { get; set; } 
+    private Guid newCarId { get; set; }
+    private Guid newManagerId { get; set; }
+    private Guid newEngineerId { get; set; }
+    private Guid newServiceTaskId { get; set; }
 
 
 
@@ -56,15 +97,21 @@ else
         //}
         //else
         //{
+        TransactionLineItem = await httpClient.GetFromJsonAsync<TransactionEditLineViewModel>($"transaction/{(Id == null ? Guid.Empty : Id)}");
         TransactionItem = await httpClient.GetFromJsonAsync<TransactionEditViewModel>($"transaction/{(Id == null ? Guid.Empty : Id)}");
         //}
     }
+    protected void AddTask()
+    {
 
+    }
     protected async Task OnSave()
     {
         HttpResponseMessage response;
         if (Id == null)
         {
+            TransactionLineItem.EngineerId = newEngineerId;
+            TransactionLineItem.ServiceTaskId = newServiceTaskId;
             TransactionItem.CarId = newCarId;
             TransactionItem.ManagerId = newManagerId;
             TransactionItem.CustomerId = newCustomerId;

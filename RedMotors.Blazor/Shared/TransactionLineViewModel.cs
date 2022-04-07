@@ -16,4 +16,16 @@ namespace RedMotors.Blazor.Shared
         public decimal PricePerHour { get; set; } = 44.5m;
         public decimal TotalPrice { get; set; }
     }
+    public class TransactionEditLineViewModel
+    {
+        public Guid Id { get; set; }
+        public Guid ServiceTaskId { get; set; }
+        public Guid EngineerId { get; set; }
+        public Guid TransactionId { get; set; }
+        public decimal Hours { get; set; }
+        public decimal PricePerHour { get; set; } = 44.5m;
+        public decimal TotalPrice { get; set; }
+        public List<EngineerEditViewModel> Engineers { get; set; } = new();
+        public List<ServiceTaskEditViewModel> ServiceTasks { get; set; } = new();
+    }
 }

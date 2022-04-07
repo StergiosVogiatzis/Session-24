@@ -10,6 +10,8 @@ namespace RedMotors.Blazor.Client.Pages
         private List<CustomerEditListViewModel> customers { get; set; }
         private List<CarEditListViewModel> cars { get; set; }
         private List<ManagerEditListViewModel> managers { get; set; }
+        public List<EngineerEditViewModel> engineers { get; set; } 
+        public List<ServiceTaskEditViewModel> serviceTasks { get; set; } 
         bool isLoading = true;
 
         protected override async Task OnInitializedAsync()
@@ -21,6 +23,8 @@ namespace RedMotors.Blazor.Client.Pages
 
         private async Task LoadItemsFromServer()
         {
+            serviceTasks = await httpClient.GetFromJsonAsync<List<ServiceTaskEditViewModel>>("servicetask");
+            engineers = await httpClient.GetFromJsonAsync<List<EngineerEditViewModel>>("engineer");
             managers = await httpClient.GetFromJsonAsync<List<ManagerEditListViewModel>>("manager");
             cars = await httpClient.GetFromJsonAsync<List<CarEditListViewModel>>("car");
             customers = await httpClient.GetFromJsonAsync<List<CustomerEditListViewModel>>("customer");

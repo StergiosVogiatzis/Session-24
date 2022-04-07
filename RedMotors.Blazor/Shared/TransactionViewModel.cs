@@ -14,7 +14,7 @@ namespace RedMotors.Blazor.Shared
         public Guid CustomerId { get; set; }
         public DateTime Date { get; set; }
         public decimal TotalPrice { get; set;}
-        public List<CustomerEditListViewModel> Customers { get; set; } = new();
+        
 
     }
     public class TransactionEditViewModel
@@ -30,5 +30,7 @@ namespace RedMotors.Blazor.Shared
         public List<CustomerEditListViewModel> Customers { get; set; } = new();
         public List<CarEditListViewModel> Cars { get; set; } = new();
         public List<ManagerEditViewModel> Managers { get; set; } = new();
+        public List<EngineerEditViewModel> Engineers { get; set; } = new();
+        public List<ServiceTaskEditViewModel> ServiceTasks { get; set; } = new();
     }
 }

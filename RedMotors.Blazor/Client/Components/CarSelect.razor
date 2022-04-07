@@ -1,7 +1,7 @@
 ﻿<select class="ms-2 form-select" aria-label="Default select example" value="@Value" @onchange="OnChange">
     @if (ShowPlaceholder)
     {
-        <option value="-1">Select Car</option>    
+        <option value="Guid.Empty">Select Car</option>    
     }
     @foreach (var car in Cars)
     {

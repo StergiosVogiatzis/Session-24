@@ -1,16 +1,16 @@
 ﻿<select class="ms-2 form-select" aria-label="Default select example" value="@Value" @onchange="OnChange">
     @if (ShowPlaceholder)
     {
-        <option value="Guid.Empty">Select Customer</option>    
+        <option value="Guid.Empty">Select Engineer</option>    
     }
-    @foreach (var customer in Customers)
+    @foreach (var engineer in Engineers)
     {
-        <option value="@customer.Id"> @customer.Name </option>
+        <option value="@engineer.Id"> @engineer.Surname </option>
     }
 </select>
 
-@code{
-    [Parameter] public List<CustomerEditListViewModel> Customers { get; set; }
+@code {
+    [Parameter] public List<EngineerEditViewModel> Engineers { get; set; }
     [Parameter] public bool ShowPlaceholder { get; set; }
     [Parameter] public Guid Value { get; set; }
     [Parameter] public EventCallback<Guid> ValueChanged { get; set; }
@@ -20,4 +20,5 @@
         Value = Guid.Parse(e.Value.ToString());
         await ValueChanged.InvokeAsync(Value);
     }
+
 }
