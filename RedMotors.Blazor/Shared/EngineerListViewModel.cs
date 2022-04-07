@@ -8,7 +8,7 @@ namespace RedMotors.Blazor.Shared
 {
     public class EngineerListViewModel
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string Surname { get; set; }
         public decimal SalaryPerMonth { get; set; }

@@ -54,6 +54,13 @@ namespace RedMotors.Blazor.Server.Controllers
                Surname = manager.Surname,
                SalaryPerMonth = manager.SalaryPerMonth,
             };
+            foreach(var engineer in manager.Engineers)
+            {
+                newManager.Engineers.Add(new Engineer()
+                {
+                    ManagerId = engineer.ManagerId,
+                });
+            }
             await _managerRepo.AddAsync(newManager);
 
 

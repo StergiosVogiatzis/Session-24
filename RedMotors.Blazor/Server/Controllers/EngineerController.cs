@@ -18,10 +18,10 @@ namespace RedMotors.Blazor.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<EngineerListViewModel>> GetEngineer()
+        public async Task<IEnumerable<EngineerEditViewModel>> GetEngineer()
         {
             var engineerResult = await _engineerRepo.GetAllAsync();
-            return engineerResult.Select(engineer => new EngineerListViewModel
+            return engineerResult.Select(engineer => new EngineerEditViewModel
             {
                 Id = engineer.Id,
                 Name = engineer.Name,
@@ -65,13 +65,7 @@ namespace RedMotors.Blazor.Server.Controllers
                 SalaryPerMonth = engineer.SalaryPerMonth,
                 ManagerId = engineer.ManagerId,
             };
-            foreach (var manager in engineer.Managers)
-            {
-                newEngineer.Managers.Add(new Manager()
-                {
 
-                });
-            }
             await _engineerRepo.AddAsync(newEngineer);
         }
 
