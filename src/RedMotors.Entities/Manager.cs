@@ -10,7 +10,7 @@ public class Manager : Person
     //    SalaryPerMonth = salaryPerMonth;
     //    Engineers = new List<Engineer>();
     //}
-    //public ICollection<Engineer> Engineers { get; set; }
+    public List<Engineer> Engineers { get; set; }
     public Manager()
     {
 

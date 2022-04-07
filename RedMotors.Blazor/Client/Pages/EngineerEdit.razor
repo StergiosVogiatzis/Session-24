@@ -55,6 +55,7 @@ else
 
     protected async Task OnSave()
     {
+        EngineerItem.ManagerId = newManagerId;
         HttpResponseMessage response;
         if (Id == Guid.Empty)
         {
