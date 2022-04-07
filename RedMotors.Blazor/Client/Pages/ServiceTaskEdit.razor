@@ -48,25 +48,25 @@ else
         }
     }
 
-    async Task AddItem()
-    {
-        if (string.IsNullOrWhiteSpace(ServiceTaskItem.Code)
-        && string.IsNullOrWhiteSpace(ServiceTaskItem.Description)
-        && ServiceTaskItem.Hours is null || ServiceTaskItem.Hours == 0) return;
-        if(ServiceTaskItem.Hours > 8m ) 
-            return;
-        var newServiceTask = new ServiceTaskListViewModel
-        {
-            Code = ServiceTaskItem.Code,
-            Description = ServiceTaskItem.Description,
-            Hours = ServiceTaskItem.Hours,
-        };
-        ServiceTaskItem.Code = null;
-        ServiceTaskItem.Description = null;
-        ServiceTaskItem.Hours = 0;
-        await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
-        //await LoadItemsFromServer();
-    }
+    //async Task AddItem()
+    //{
+    //    if (string.IsNullOrWhiteSpace(ServiceTaskItem.Code)
+    //    && string.IsNullOrWhiteSpace(ServiceTaskItem.Description)
+    //    && ServiceTaskItem.Hours == 0) return;
+    //    if(ServiceTaskItem.Hours > 8m ) 
+    //        return;
+    //    var newServiceTask = new ServiceTaskListViewModel
+    //    {
+    //        Code = ServiceTaskItem.Code,
+    //        Description = ServiceTaskItem.Description,
+    //        Hours = ServiceTaskItem.Hours,
+    //    };
+    //    ServiceTaskItem.Code = null;
+    //    ServiceTaskItem.Description = null;
+    //    ServiceTaskItem.Hours = 0;
+    //    await httpClient.PostAsJsonAsync("serviceTask", newServiceTask);
+    //    //await LoadItemsFromServer();
+    //}
  
     protected async Task OnSave()
     {

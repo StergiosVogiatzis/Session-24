@@ -10,7 +10,6 @@ internal sealed class TransactionLineConfiguration : IEntityTypeConfiguration<Tr
     {
         builder.ToTable("TransactionLines", nameof(RedMotors));
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.HasOne(c => c.Transaction).WithMany(c => c.Lines).HasForeignKey(c => c.TransactionId).IsRequired();
         builder.HasOne(c => c.ServiceTask).WithMany().HasForeignKey(c => c.ServiceTaskId).IsRequired();
         builder.HasOne(c => c.Engineer).WithMany().HasForeignKey(c => c.EngineerId).IsRequired();

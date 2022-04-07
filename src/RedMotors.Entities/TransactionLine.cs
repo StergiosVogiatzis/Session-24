@@ -41,5 +41,6 @@ public class TransactionLine
 
     public TransactionLine()
     {
+        Id = Guid.NewGuid();
     }
 }

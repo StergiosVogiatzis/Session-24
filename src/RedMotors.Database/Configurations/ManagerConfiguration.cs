@@ -10,7 +10,6 @@ internal sealed class ManagerConfiguration : IEntityTypeConfiguration<Manager>
     {
         builder.ToTable("Manager", nameof(RedMotors));
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
         builder.Property(c => c.Surname).HasMaxLength(50).IsRequired();
         builder.Property(c => c.SalaryPerMonth).HasMaxLength(50).IsRequired();

@@ -10,7 +10,6 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
     {
         builder.ToTable("Transactions", nameof(RedMotors));
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).ValueGeneratedOnAdd();
         builder.Property(c => c.Date).IsRequired();
         builder.HasOne(c => c.Car).WithMany().HasForeignKey(c => c.CarId).IsRequired();
         builder.HasOne(c => c.Customer).WithMany().HasForeignKey(c => c.CustomerId).IsRequired();

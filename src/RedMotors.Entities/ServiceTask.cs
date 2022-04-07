@@ -9,5 +9,6 @@ public class ServiceTask
 
     public ServiceTask()
     {
+        Id = Guid.NewGuid();
     }
 }

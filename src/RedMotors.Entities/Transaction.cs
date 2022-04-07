@@ -37,4 +37,8 @@ public class Transaction
     public decimal TotalPrice => Lines.Sum(x => x.Price);
 
     public List<TransactionLine> Lines { get; set; } = new();
+    public Transaction()
+    {
+        Id = Guid.NewGuid();
+    }
 }

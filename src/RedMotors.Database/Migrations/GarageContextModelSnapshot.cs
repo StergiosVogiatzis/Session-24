@@ -166,8 +166,8 @@ namespace RedMotors.Database.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Hours")
-                        .HasPrecision(4, 2)
-                        .HasColumnType("decimal(4,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 

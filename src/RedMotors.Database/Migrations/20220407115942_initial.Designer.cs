@@ -12,8 +12,8 @@ using RedMotors.Database;
 namespace RedMotors.Database.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20220407111116_Initial-Dimitris")]
-    partial class InitialDimitris
+    [Migration("20220407115942_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,8 +168,8 @@ namespace RedMotors.Database.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Hours")
-                        .HasPrecision(4, 2)
-                        .HasColumnType("decimal(4,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
