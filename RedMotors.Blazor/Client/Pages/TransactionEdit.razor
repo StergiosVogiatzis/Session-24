@@ -19,11 +19,15 @@ else
         </div>
         <div class="col-md-6">
             <label class="form-label">Car</label>
-            <input class="form-control" @bind="@TransactionItem.CarId" />
+            <CarSelect Cars="TransactionItem.Cars"
+                       ShowPlaceholder=true
+                       @bind-value="newCarId"/>
         </div>
         <div class="col-md-6">
             <label class="form-label">Manager</label>
-            <input class="form-control" @bind="@TransactionItem.ManagerId" />
+           <ManagerSelect Managers="TransactionItem.Managers" 
+                          ShowPlaceholder=true
+                          @bind-Value="newManagerId"/>
         </div>
     </div>
 
@@ -39,6 +43,8 @@ else
     [Parameter] public Guid? Id { get; set; }
     TransactionEditViewModel TransactionItem { get; set; }
     private Guid newCustomerId { get; set; } = Guid.Empty;
+    private Guid newCarId { get; set; } = Guid.Empty;
+    private Guid newManagerId { get; set; } = Guid.Empty;
 
 
 

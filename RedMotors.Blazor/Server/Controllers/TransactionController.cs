@@ -12,12 +12,16 @@ namespace RedMotors.Blazor.Server.Controllers
         private readonly IEntityRepo<Transaction> _transactionRepo;
         private readonly IEntityRepo<TransactionLine> _transactionLineRepo;
         private readonly IEntityRepo<Customer> _customerRepo;
+        private readonly IEntityRepo<Car> _carRepo;
+        private readonly IEntityRepo<Manager> _managerRepo;
 
-        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo, IEntityRepo<Customer> customerRepo)
+        public TransactionController(IEntityRepo<Transaction> transactionRepo, IEntityRepo<TransactionLine> transactionLineRepo,  IEntityRepo<Customer> customerRepo, IEntityRepo<Car> carRepo, IEntityRepo<Manager> managerRepo)
         {
             _transactionRepo = transactionRepo;
             _transactionLineRepo = transactionLineRepo;
             _customerRepo = customerRepo;
+            _carRepo = carRepo;
+            _managerRepo = managerRepo;
            
         }
 
@@ -43,9 +47,9 @@ namespace RedMotors.Blazor.Server.Controllers
             {
                 var existing = await _transactionRepo.GetByIdAsync(id);
                 model.Id = existing.Id;
-                model.CarId = existing.CarId;
-                model.CustomerId = existing.CustomerId;
-                model.ManagerId = existing.ManagerId;
+                //model.CarId = existing.CarId;
+                //model.CustomerId = existing.CustomerId;
+                //model.ManagerId = existing.ManagerId;
                 model.TotalPrice = existing.TotalPrice;
                 
                 model.TransactionLines = existing.Lines.Select(transactionLine => new TransactionLineViewModel
@@ -70,6 +74,23 @@ namespace RedMotors.Blazor.Server.Controllers
                 Phone = x.Phone,
                 TIN = x.TIN
                
+            }).ToList();
+            var car = await _carRepo.GetAllAsync();
+            model.Cars = car.Select(x => new CarEditListViewModel
+            {
+                Id = x.Id,
+                Brand = x.Brand,
+                Model = x.Model,
+                CarRegistrationNumber = x.CarRegistrationNumber
+
+            }).ToList();
+            var manager = await _managerRepo.GetAllAsync();
+            model.Managers = manager.Select(x => new ManagerEditViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Surname = x.Surname,
+                SalaryPerMonth = x.SalaryPerMonth,    
             }).ToList();
 
             return model;
