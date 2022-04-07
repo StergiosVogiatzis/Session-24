@@ -28,21 +28,21 @@ namespace RedMotors.Blazor.Server.Controllers
                 Surname = engineer.Surname,
                 SalaryPerMonth = engineer.SalaryPerMonth,
                 ManagerId = engineer.ManagerId,
-
             });
 
         }
         [HttpGet("{Id}")]
         public async Task<EngineerEditViewModel> Get(Guid Id)
         {
-            EngineerEditViewModel viewModel = new EngineerEditViewModel();
+            EngineerEditViewModel viewModel = new();
             if (Id != Guid.Empty)
             {
-                var existing = await _managerRepo.GetByIdAsync(Id);
+                var existing = await _engineerRepo.GetByIdAsync(Id);
                 viewModel.Id = existing.Id;
                 viewModel.Name = existing.Name;
                 viewModel.Surname = existing.Surname;
                 viewModel.SalaryPerMonth = existing.SalaryPerMonth;
+                viewModel.ManagerId=existing.ManagerId;
             }
             var manager = await _managerRepo.GetAllAsync();
             viewModel.Managers = manager.Select(x => new ManagerEditViewModel
