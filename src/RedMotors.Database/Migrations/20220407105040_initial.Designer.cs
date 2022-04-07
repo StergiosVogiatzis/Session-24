@@ -12,8 +12,8 @@ using RedMotors.Database;
 namespace RedMotors.Database.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20220406152551_Initia")]
-    partial class Initia
+    [Migration("20220407105040_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace RedMotors.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("EngineerManager", b =>
+                {
+                    b.Property<Guid>("EngineersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ManagersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("EngineersId", "ManagersId");
+
+                    b.HasIndex("ManagersId");
+
+                    b.ToTable("EngineerManager", "RedMotors");
+                });
 
             modelBuilder.Entity("RedMotors.Entities.Car", b =>
                 {
@@ -228,6 +243,21 @@ namespace RedMotors.Database.Migrations
                     b.HasIndex("TransactionId");
 
                     b.ToTable("TransactionLines", "RedMotors");
+                });
+
+            modelBuilder.Entity("EngineerManager", b =>
+                {
+                    b.HasOne("RedMotors.Entities.Engineer", null)
+                        .WithMany()
+                        .HasForeignKey("EngineersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RedMotors.Entities.Manager", null)
+                        .WithMany()
+                        .HasForeignKey("ManagersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RedMotors.Entities.Engineer", b =>
