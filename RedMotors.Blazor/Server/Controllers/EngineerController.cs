@@ -55,7 +55,7 @@ namespace RedMotors.Blazor.Server.Controllers
 
         }
         [HttpPost]
-        public async Task Post(EngineerListViewModel engineer)
+        public async Task Post(EngineerEditViewModel engineer)
         {
             var newEngineer = new Engineer {
 
@@ -63,15 +63,15 @@ namespace RedMotors.Blazor.Server.Controllers
                 Name = engineer.Name,
                 Surname = engineer.Surname,
                 SalaryPerMonth = engineer.SalaryPerMonth,
-                ManagerId = engineer.ManagerId,
+                //ManagerId = engineer.ManagerId,
             };
-            foreach (var manager in engineer.Managers)
-            {
-                newEngineer.Managers.Add(new Manager()
-                {
+            //foreach (var manager in engineer.Managers)
+            //{
+            //    newEngineer.Managers.Add(new Manager()
+            //    {
 
-                });
-            }
+            //    });
+            //}
             await _engineerRepo.AddAsync(newEngineer);
         }
 
